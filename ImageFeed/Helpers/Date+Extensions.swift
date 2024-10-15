@@ -10,6 +10,6 @@ private extension DateFormatter {
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
-        
-    }() 
+
+    }()
 }
