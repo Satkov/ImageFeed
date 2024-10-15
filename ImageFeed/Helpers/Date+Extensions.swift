@@ -11,6 +11,5 @@ private extension DateFormatter {
         formatter.timeStyle = .none
         formatter.locale = .init(identifier: "ru_RU")
         return formatter
-
     }()
 }
