@@ -22,7 +22,6 @@ extension ImagesListViewController: UITableViewDelegate {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
             return 0
         }
-
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
         let imageWidth = image.size.width
@@ -39,12 +38,9 @@ extension ImagesListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-        let z = "ASd"
-
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
@@ -55,11 +51,11 @@ extension ImagesListViewController {
         guard let image = UIImage(named: "\(indexPath.row)") else { return }
         cell.cellImage.image = image
         cell.cellImage.contentMode = .scaleAspectFill
+        
         cell.dateLabel.text = Date().dateTimeString
-        cell.likeButton.tintColor = .red
-
-        let imageName = indexPath.row % 2 != 0 ? "heart.fill" : "heart"
-        cell.likeButton.imageView?.image = UIImage(systemName: imageName)
-
+        
+        let buttonImageName = indexPath.row % 2 == 0 ? "like_button_off" : "like_button_on"
+        guard let buttonImage = UIImage(named: buttonImageName) else { return }
+        cell.likeButton.setImage(buttonImage, for: .normal)
     }
 }
