@@ -10,6 +10,72 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Profile Page View Controller-->
+        <scene sceneID="vdt-dO-BiX">
+            <objects>
+                <viewController id="RxZ-kL-VOH" customClass="ProfilePageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4V8-Er-SSu" userLabel="View" customClass="Я">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4K5-tI-bec">
+                                <rect key="frame" x="321" y="99" width="48" height="38"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="exit_button"/>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_photo" translatesAutoresizingMaskIntoConstraints="NO" id="9ic-Ni-N8T">
+                                <rect key="frame" x="16" y="76" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="i5a-nF-eIP"/>
+                                    <constraint firstAttribute="width" constant="70" id="tnf-L4-1Sr"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Екатерина Новикова" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JfV-jq-8W8" userLabel="Name label">
+                                <rect key="frame" x="16" y="154" width="176.33333333333334" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" name="YP White"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ekaterina_nov" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luQ-QB-JAA" userLabel="Tag label">
+                                <rect key="frame" x="16" y="183" width="91.333333333333329" height="15.333333333333343"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                <color key="textColor" red="0.68235294120000001" green="0.68627450980000004" blue="0.70588235290000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, world!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pct-zu-GrN" userLabel="Bio label">
+                                <rect key="frame" x="16" y="206.33333333333334" width="75.666666666666671" height="15.666666666666657"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" name="YP White"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mun-jD-vFg"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="luQ-QB-JAA" firstAttribute="leading" secondItem="mun-jD-vFg" secondAttribute="leading" constant="16" id="0vy-Yf-0B7"/>
+                            <constraint firstItem="JfV-jq-8W8" firstAttribute="leading" secondItem="mun-jD-vFg" secondAttribute="leading" constant="16" id="2Xp-mf-NO9"/>
+                            <constraint firstAttribute="trailing" secondItem="4K5-tI-bec" secondAttribute="trailing" constant="24" id="5MV-eD-h5g"/>
+                            <constraint firstItem="JfV-jq-8W8" firstAttribute="top" secondItem="9ic-Ni-N8T" secondAttribute="bottom" constant="8" id="LvR-Sj-ttN"/>
+                            <constraint firstItem="9ic-Ni-N8T" firstAttribute="top" secondItem="4V8-Er-SSu" secondAttribute="top" constant="76" id="Mop-NX-BGk"/>
+                            <constraint firstItem="luQ-QB-JAA" firstAttribute="top" secondItem="JfV-jq-8W8" secondAttribute="bottom" constant="8" id="Ofm-Dd-lLa"/>
+                            <constraint firstItem="9ic-Ni-N8T" firstAttribute="leading" secondItem="4V8-Er-SSu" secondAttribute="leading" constant="16" id="XLq-lv-ErF"/>
+                            <constraint firstItem="Pct-zu-GrN" firstAttribute="leading" secondItem="mun-jD-vFg" secondAttribute="leading" constant="16" id="aDL-oR-RH9"/>
+                            <constraint firstItem="Pct-zu-GrN" firstAttribute="top" secondItem="luQ-QB-JAA" secondAttribute="bottom" constant="8" id="jcb-Zm-cpb"/>
+                            <constraint firstItem="4K5-tI-bec" firstAttribute="top" secondItem="4V8-Er-SSu" secondAttribute="top" constant="99" id="ry2-Kh-59l"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bioLabel" destination="Pct-zu-GrN" id="aUF-Z9-FeA"/>
+                        <outlet property="exitButton" destination="4K5-tI-bec" id="Fal-h5-W2i"/>
+                        <outlet property="profileName" destination="JfV-jq-8W8" id="Vip-h6-p40"/>
+                        <outlet property="profilePhoto" destination="9ic-Ni-N8T" id="PKH-9t-Fum"/>
+                        <outlet property="userTagLabel" destination="luQ-QB-JAA" id="tEa-z3-QKz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fBh-lG-g5s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="853" y="4"/>
+        </scene>
         <!--Images List View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -117,9 +183,14 @@
         </scene>
     </scenes>
     <resources>
+        <image name="exit_button" width="24" height="24"/>
         <image name="like_button_on" width="42" height="42"/>
+        <image name="profile_photo" width="70" height="70"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="YP White">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
