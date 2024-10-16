@@ -18,8 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SUd-pe-Gd2">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SUd-pe-Gd2">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" name="YP Black"/>
                                 <prototypes>
@@ -49,30 +50,49 @@
                                                     <state key="normal" image="like_button_on"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="like_button_on"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="29 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAG-s0-3sZ" userLabel="DateLabel">
-                                                    <rect key="frame" x="23.999999999999993" y="172.33333333333334" width="102.33333333333331" height="15.666666666666657"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w83-BJ-6F9" userLabel="gradientBackgroundView">
+                                                    <rect key="frame" x="24" y="170" width="125" height="22"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="29 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAG-s0-3sZ" userLabel="DateLabel">
+                                                            <rect key="frame" x="5" y="3" width="115" height="16"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="pAG-s0-3sZ" secondAttribute="bottom" constant="3" id="0eh-rp-Ci4"/>
+                                                        <constraint firstAttribute="width" constant="125" id="17R-73-lr1"/>
+                                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="pAG-s0-3sZ" secondAttribute="trailing" constant="5" id="OuM-uv-Gce"/>
+                                                        <constraint firstItem="pAG-s0-3sZ" firstAttribute="top" secondItem="w83-BJ-6F9" secondAttribute="top" constant="3" id="RUl-jN-e4P"/>
+                                                        <constraint firstItem="pAG-s0-3sZ" firstAttribute="leading" secondItem="w83-BJ-6F9" secondAttribute="leading" constant="5" id="l4T-WX-8a4"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="6"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <rect key="contentStretch" x="0.0" y="1" width="1" height="1"/>
                                             <constraints>
+                                                <constraint firstItem="w83-BJ-6F9" firstAttribute="leading" secondItem="Yaw-xe-cUv" secondAttribute="leading" constant="8" id="AFT-Nn-N21"/>
                                                 <constraint firstAttribute="bottom" secondItem="Yaw-xe-cUv" secondAttribute="bottom" constant="4" id="BaV-ob-9gQ"/>
-                                                <constraint firstItem="Yaw-xe-cUv" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pAG-s0-3sZ" secondAttribute="trailing" constant="8" id="Rya-lc-z1O"/>
                                                 <constraint firstAttribute="trailing" secondItem="Yaw-xe-cUv" secondAttribute="trailing" constant="16" id="cqG-m6-Nch"/>
                                                 <constraint firstItem="Yaw-xe-cUv" firstAttribute="top" secondItem="ChF-qI-ltE" secondAttribute="top" constant="4" id="g70-XD-6Ad"/>
+                                                <constraint firstItem="w83-BJ-6F9" firstAttribute="bottom" secondItem="Yaw-xe-cUv" secondAttribute="bottom" constant="-4" id="gpV-iv-Yen"/>
                                                 <constraint firstItem="Yaw-xe-cUv" firstAttribute="leading" secondItem="ChF-qI-ltE" secondAttribute="leading" constant="16" id="hKw-EL-3h5"/>
                                                 <constraint firstItem="AQN-0q-M5L" firstAttribute="top" secondItem="Yaw-xe-cUv" secondAttribute="top" id="i1T-aE-gOp"/>
-                                                <constraint firstItem="Yaw-xe-cUv" firstAttribute="bottom" secondItem="pAG-s0-3sZ" secondAttribute="bottom" constant="8" id="kIT-qr-dJg"/>
-                                                <constraint firstItem="pAG-s0-3sZ" firstAttribute="leading" secondItem="Yaw-xe-cUv" secondAttribute="leading" constant="8" id="pZW-Iw-4ZI"/>
                                                 <constraint firstItem="Yaw-xe-cUv" firstAttribute="trailing" secondItem="AQN-0q-M5L" secondAttribute="trailing" id="v8N-XP-wfd"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="YP Black"/>
                                         <connections>
                                             <outlet property="cellImage" destination="Yaw-xe-cUv" id="yzl-sp-Ce6"/>
+                                            <outlet property="dateGradientBackgroundView" destination="w83-BJ-6F9" id="eqM-XN-ckQ"/>
                                             <outlet property="dateLabel" destination="pAG-s0-3sZ" id="jFa-Ja-6Qj"/>
                                             <outlet property="likeButton" destination="AQN-0q-M5L" id="dhq-Ol-0Sv"/>
                                         </connections>
@@ -86,12 +106,6 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="SUd-pe-Gd2" secondAttribute="trailing" id="2DO-fW-GWT"/>
-                            <constraint firstItem="SUd-pe-Gd2" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Kno-4U-yaP"/>
-                            <constraint firstAttribute="bottom" secondItem="SUd-pe-Gd2" secondAttribute="bottom" id="eCB-LN-fr3"/>
-                            <constraint firstItem="SUd-pe-Gd2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zPg-pr-xww"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="SUd-pe-Gd2" id="J3H-hx-rDx"/>
@@ -109,6 +123,9 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
