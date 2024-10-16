@@ -3,7 +3,6 @@ import UIKit
 class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet weak var dateGradientBackground: UIView!
-    
 
     private let photosName: [String] = Array(0..<20).map { ("\($0)") }
 
@@ -52,12 +51,12 @@ extension ImagesListViewController {
         guard let image = UIImage(named: "\(indexPath.row)") else { return }
         cell.cellImage.image = image
         cell.cellImage.contentMode = .scaleAspectFill
-        
+
         cell.dateLabel.text = Date().dateTimeString
         if let dateBackgroundView = cell.dateGradientBackgroundView {
             setGradientBackgroundColor(for: dateBackgroundView)
         }
-        
+
         let buttonImageName = indexPath.row % 2 == 0 ? "like_button_off" : "like_button_on"
         guard let buttonImage = UIImage(named: buttonImageName) else { return }
         cell.likeButton.setImage(buttonImage, for: .normal)
