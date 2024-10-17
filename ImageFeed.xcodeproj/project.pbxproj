@@ -15,7 +15,7 @@
 		911F2B1D2CBD61CC00855FCE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 911F2B1C2CBD61CC00855FCE /* Base */; };
 		911F2B262CBD64D200855FCE /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911F2B252CBD64D200855FCE /* ImagesListCell.swift */; };
 		9147FF482CC0320A00D7B371 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9147FF472CC0320A00D7B371 /* ProfilePageViewController.swift */; };
-		9147FF4B2CC0326F00D7B371 /* ProfilePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9147FF4A2CC0326F00D7B371 /* ProfilePage.storyboard */; };
+		9147FF4D2CC14A7300D7B371 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */; };
 		915782D92CBE595F00AD066C /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915782D82CBE595F00AD066C /* Date+Extensions.swift */; };
 		917894F22CC006AA00DD7426 /* setGradientBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917894F12CC006AA00DD7426 /* setGradientBackgroundColor.swift */; };
 /* End PBXBuildFile section */
@@ -31,7 +31,7 @@
 		911F2B1E2CBD61CC00855FCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		911F2B252CBD64D200855FCE /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		9147FF472CC0320A00D7B371 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
-		9147FF4A2CC0326F00D7B371 /* ProfilePage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProfilePage.storyboard; sourceTree = "<group>"; };
+		9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		915782D82CBE595F00AD066C /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		917894F12CC006AA00DD7426 /* setGradientBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setGradientBackgroundColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +84,7 @@
 			children = (
 				911F2B142CBD61CA00855FCE /* ImagesListViewController.swift */,
 				911F2B252CBD64D200855FCE /* ImagesListCell.swift */,
+				9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */,
 			);
 			path = ImagesTable;
 			sourceTree = "<group>";
@@ -101,7 +102,6 @@
 			children = (
 				911F2B162CBD61CA00855FCE /* Main.storyboard */,
 				911F2B1B2CBD61CC00855FCE /* LaunchScreen.storyboard */,
-				9147FF4A2CC0326F00D7B371 /* ProfilePage.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -183,7 +183,6 @@
 				911F2B1A2CBD61CC00855FCE /* Assets.xcassets in Resources */,
 				911F2B1D2CBD61CC00855FCE /* Base in Resources */,
 				911F2B182CBD61CA00855FCE /* Base in Resources */,
-				9147FF4B2CC0326F00D7B371 /* ProfilePage.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +199,7 @@
 				911F2B262CBD64D200855FCE /* ImagesListCell.swift in Sources */,
 				911F2B112CBD61CA00855FCE /* AppDelegate.swift in Sources */,
 				9147FF482CC0320A00D7B371 /* ProfilePageViewController.swift in Sources */,
+				9147FF4D2CC14A7300D7B371 /* SingleImageViewController.swift in Sources */,
 				911F2B132CBD61CA00855FCE /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
