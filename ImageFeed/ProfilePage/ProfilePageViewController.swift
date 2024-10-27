@@ -1,12 +1,12 @@
 import UIKit
 
-class ProfilePageViewController: UIViewController {
+final class ProfilePageViewController: UIViewController {
     @IBOutlet var contentView: UIView!
-    var profileImage = UIImageView()
-    var exitButton = UIButton()
-    var nameLabel = UILabel()
-    var tagLabel = UILabel()
-    var bioLabel = UILabel()
+    private var profileImage = UIImageView()
+    private var exitButton = UIButton()
+    private var nameLabel = UILabel()
+    private var tagLabel = UILabel()
+    private var bioLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +49,7 @@ class ProfilePageViewController: UIViewController {
         contentView.addSubview(nameLabel)
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "YP White")
+        nameLabel.font = UIFont(name: "SFProDisplay-Bold", size: 23)
 
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
@@ -81,5 +82,4 @@ class ProfilePageViewController: UIViewController {
             bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)
         ])
     }
-
 }

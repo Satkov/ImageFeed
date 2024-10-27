@@ -1,10 +1,10 @@
 import UIKit
 
-class SingleImageViewController: UIViewController {
-    @IBOutlet var backwardButton: UIButton!
-    @IBOutlet var shareButton: UIButton!
-    @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var imageView: UIImageView!
+final class SingleImageViewController: UIViewController {
+    @IBOutlet private var backwardButton: UIButton!
+    @IBOutlet private var shareButton: UIButton!
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var imageView: UIImageView!
 
     var image: UIImage? {
         didSet {
@@ -22,14 +22,14 @@ class SingleImageViewController: UIViewController {
         updateImageView()
     }
 
-    @IBAction func didTapShareButton() {
+    @IBAction private func didTapShareButton() {
         guard let image = imageView.image else { return }
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         present(activityViewController, animated: true)
     }
 
-    @IBAction func didTapBackwardButton() {
+    @IBAction private func didTapBackwardButton() {
         dismiss(animated: true)
     }
 
@@ -37,9 +37,22 @@ class SingleImageViewController: UIViewController {
         guard let image = image else { return }
         imageView.image = image
 
-        imageView.frame = scrollView.bounds
-        imageView.contentMode = .scaleAspectFill
+        imageView.frame.size = image.size
+        imageView.contentMode = .scaleAspectFit
 
+        rescaleAndCenterImageInScrollView(image: image)
+    }
+    
+    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+        let scrollViewSize = scrollView.bounds.size
+        let imageSize = image.size
+        let hScale = scrollViewSize.width / imageSize.width
+        let vScale = scrollViewSize.height / imageSize.height
+        let scale = min(max(scrollView.minimumZoomScale, min(hScale, vScale)), scrollView.maximumZoomScale)
+        
+        scrollView.setZoomScale(scale, animated: false)
+        scrollView.layoutIfNeeded()
+        
         centerImage()
     }
 
