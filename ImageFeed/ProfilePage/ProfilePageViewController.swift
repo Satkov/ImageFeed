@@ -12,9 +12,9 @@ class ProfilePageViewController: UIViewController {
         super.viewDidLoad()
         setupProfileImageView()
         setupExitButtonView()
-        setupNameLabel()
-        setupTagLabel()
-        setupBioLabel()
+        setupNameLabelView()
+        setupTagLabelView()
+        setupBioLabelView()
     }
 
     func setupProfileImageView() {
@@ -44,7 +44,7 @@ class ProfilePageViewController: UIViewController {
         ])
     }
 
-    func setupNameLabel() {
+    func setupNameLabelView() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(nameLabel)
         nameLabel.text = "Екатерина Новикова"
@@ -56,7 +56,7 @@ class ProfilePageViewController: UIViewController {
         ])
     }
 
-    func setupTagLabel() {
+    func setupTagLabelView() {
         tagLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(tagLabel)
         tagLabel.text = "@ekaterina_nov"
@@ -69,7 +69,7 @@ class ProfilePageViewController: UIViewController {
         ])
     }
 
-    func setupBioLabel() {
+    func setupBioLabelView() {
         bioLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bioLabel)
         bioLabel.text = "@Hello, world!"
