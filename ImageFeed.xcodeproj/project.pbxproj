@@ -70,6 +70,7 @@
 				9147FF462CC031F700D7B371 /* ProfilePage */,
 				917894F02CC0069F00DD7426 /* Services */,
 				915782D72CBE595000AD066C /* Helpers */,
+				91852A6C2CC53545007D9F4C /* SingleImageViewController */,
 				911F2B242CBD64BF00855FCE /* ImagesTable */,
 				911F2B102CBD61CA00855FCE /* AppDelegate.swift */,
 				911F2B122CBD61CA00855FCE /* SceneDelegate.swift */,
@@ -84,7 +85,6 @@
 			children = (
 				911F2B142CBD61CA00855FCE /* ImagesListViewController.swift */,
 				911F2B252CBD64D200855FCE /* ImagesListCell.swift */,
-				9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */,
 			);
 			path = ImagesTable;
 			sourceTree = "<group>";
@@ -120,6 +120,14 @@
 				917894F12CC006AA00DD7426 /* setGradientBackgroundColor.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		91852A6C2CC53545007D9F4C /* SingleImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */,
+			);
+			path = SingleImageViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
