@@ -1,11 +1,11 @@
 import Foundation
 
 extension Date {
-    var dateTimeString: String { DateFormatter.defaultDateTime.string(from: self) }
+    var dateString: String { DateFormatter.defaultDate.string(from: self) }
 }
 
 private extension DateFormatter {
-    static let defaultDateTime: DateFormatter = {
+    static let defaultDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
