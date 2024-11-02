@@ -14,10 +14,17 @@
 		911F2B1A2CBD61CC00855FCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 911F2B192CBD61CC00855FCE /* Assets.xcassets */; };
 		911F2B1D2CBD61CC00855FCE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 911F2B1C2CBD61CC00855FCE /* Base */; };
 		911F2B262CBD64D200855FCE /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911F2B252CBD64D200855FCE /* ImagesListCell.swift */; };
+		914288C12CD2790500109ECC /* WebViewViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914288C02CD2790500109ECC /* WebViewViewControllerDelegate.swift */; };
 		9147FF482CC0320A00D7B371 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9147FF472CC0320A00D7B371 /* ProfilePageViewController.swift */; };
 		9147FF4D2CC14A7300D7B371 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */; };
 		915782D92CBE595F00AD066C /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915782D82CBE595F00AD066C /* Date+Extensions.swift */; };
 		917894F22CC006AA00DD7426 /* setGradientBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917894F12CC006AA00DD7426 /* setGradientBackgroundColor.swift */; };
+		91985C392CD1446000EB84DA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91985C382CD1446000EB84DA /* Constants.swift */; };
+		91985C3D2CD151DE00EB84DA /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91985C3C2CD151DE00EB84DA /* AuthViewController.swift */; };
+		91985C3F2CD153F300EB84DA /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91985C3E2CD153F300EB84DA /* WebViewViewController.swift */; };
+		91B4254A2CD6785A000B3B3D /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B425492CD6785A000B3B3D /* OAuth2Service.swift */; };
+		91B4254C2CD67E51000B3B3D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B4254B2CD67E51000B3B3D /* NetworkClient.swift */; };
+		91B4254F2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,10 +37,17 @@
 		911F2B1C2CBD61CC00855FCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		911F2B1E2CBD61CC00855FCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		911F2B252CBD64D200855FCE /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		914288C02CD2790500109ECC /* WebViewViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerDelegate.swift; sourceTree = "<group>"; };
 		9147FF472CC0320A00D7B371 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		915782D82CBE595F00AD066C /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		917894F12CC006AA00DD7426 /* setGradientBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setGradientBackgroundColor.swift; sourceTree = "<group>"; };
+		91985C382CD1446000EB84DA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		91985C3C2CD151DE00EB84DA /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		91985C3E2CD153F300EB84DA /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		91B425492CD6785A000B3B3D /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
+		91B4254B2CD67E51000B3B3D /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoutingProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +80,9 @@
 		911F2B0F2CBD61CA00855FCE /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				914288BF2CD278F500109ECC /* Protocols */,
+				91985C3A2CD151BD00EB84DA /* Auth */,
+				91985C372CD1445500EB84DA /* Constants */,
 				9147FF492CC0324F00D7B371 /* Storyboards */,
 				9147FF462CC031F700D7B371 /* ProfilePage */,
 				917894F02CC0069F00DD7426 /* Services */,
@@ -87,6 +104,14 @@
 				911F2B252CBD64D200855FCE /* ImagesListCell.swift */,
 			);
 			path = ImagesTable;
+			sourceTree = "<group>";
+		};
+		914288BF2CD278F500109ECC /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				914288C02CD2790500109ECC /* WebViewViewControllerDelegate.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		9147FF462CC031F700D7B371 /* ProfilePage */ = {
@@ -117,7 +142,9 @@
 		917894F02CC0069F00DD7426 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				91B4254D2CD67E67000B3B3D /* Protocols */,
 				917894F12CC006AA00DD7426 /* setGradientBackgroundColor.swift */,
+				91B4254B2CD67E51000B3B3D /* NetworkClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -128,6 +155,32 @@
 				9147FF4C2CC14A7300D7B371 /* SingleImageViewController.swift */,
 			);
 			path = SingleImageViewController;
+			sourceTree = "<group>";
+		};
+		91985C372CD1445500EB84DA /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				91985C382CD1446000EB84DA /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		91985C3A2CD151BD00EB84DA /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				91985C3C2CD151DE00EB84DA /* AuthViewController.swift */,
+				91985C3E2CD153F300EB84DA /* WebViewViewController.swift */,
+				91B425492CD6785A000B3B3D /* OAuth2Service.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		91B4254D2CD67E67000B3B3D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,12 +256,19 @@
 			files = (
 				915782D92CBE595F00AD066C /* Date+Extensions.swift in Sources */,
 				917894F22CC006AA00DD7426 /* setGradientBackgroundColor.swift in Sources */,
+				91B4254A2CD6785A000B3B3D /* OAuth2Service.swift in Sources */,
+				91985C3D2CD151DE00EB84DA /* AuthViewController.swift in Sources */,
 				911F2B152CBD61CA00855FCE /* ImagesListViewController.swift in Sources */,
+				91985C3F2CD153F300EB84DA /* WebViewViewController.swift in Sources */,
 				911F2B262CBD64D200855FCE /* ImagesListCell.swift in Sources */,
 				911F2B112CBD61CA00855FCE /* AppDelegate.swift in Sources */,
 				9147FF482CC0320A00D7B371 /* ProfilePageViewController.swift in Sources */,
 				9147FF4D2CC14A7300D7B371 /* SingleImageViewController.swift in Sources */,
+				91B4254F2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift in Sources */,
+				914288C12CD2790500109ECC /* WebViewViewControllerDelegate.swift in Sources */,
+				91B4254C2CD67E51000B3B3D /* NetworkClient.swift in Sources */,
 				911F2B132CBD61CA00855FCE /* SceneDelegate.swift in Sources */,
+				91985C392CD1446000EB84DA /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
