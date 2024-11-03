@@ -6,6 +6,8 @@ class AuthViewController: UIViewController {
     let authService = OAuth2Service.shared
     let authStorageToken = OAuth2TokenStorage()
     
+    weak var delegate: AuthViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
@@ -40,7 +42,10 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 switch result {
                 case .success(let oAuthTokenResponseBody):
                     self?.authStorageToken.token = oAuthTokenResponseBody.access_token
-                    assertionFailure("LOG: Token successfully saved.")
+                    print("LOG: Token successfully saved.")
+                    if let vc = self {
+                        self?.delegate?.didAuthenticate(vc)
+                    }
                 case .failure(let error):
                     assertionFailure("LOG: Failed to fetch token: \(error.localizedDescription)")
                 }
