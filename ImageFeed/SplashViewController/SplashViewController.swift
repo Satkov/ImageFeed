@@ -3,8 +3,7 @@ import UIKit
 final class SplashViewController: UIViewController {
     private let showAuthViewControllerIdentifier = "showAuthView"
     private let authTokenStorage = OAuth2TokenStorage()
-    
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let _ = authTokenStorage.token {
@@ -13,14 +12,14 @@ final class SplashViewController: UIViewController {
             performSegue(withIdentifier: showAuthViewControllerIdentifier, sender: nil)
         }
     }
-    
+
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
-    
+
 }
 
 extension SplashViewController {
@@ -35,8 +34,7 @@ extension SplashViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
-    
+
 }
 
 extension SplashViewController: AuthViewControllerDelegate {

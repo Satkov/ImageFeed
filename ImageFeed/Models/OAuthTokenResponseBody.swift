@@ -6,4 +6,3 @@ struct OAuthTokenResponseBody: Decodable {
     var scope: String
     var created_at: Date
 }
-
