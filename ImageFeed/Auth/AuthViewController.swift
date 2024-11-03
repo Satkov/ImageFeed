@@ -4,11 +4,10 @@ import WebKit
 class AuthViewController: UIViewController {
     let showWebViewSegueIdentifier = "ShowWebView"
     let authService = OAuth2Service.shared
-    
+    let authStorageToken = OAuth2TokenStorage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureBackButton()
     }
     
@@ -17,11 +16,10 @@ class AuthViewController: UIViewController {
             if let webViewViewController = segue.destination as? WebViewViewController {
                 webViewViewController.delegate = self
             } else {
-                assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
-                return
+                assertionFailure("LOG: Failed to prepare for \(showWebViewSegueIdentifier)")
             }
         } else {
-            prepare(for: segue, sender: sender)
+            super.prepare(for: segue, sender: sender)
         }
     }
     
@@ -36,8 +34,17 @@ class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         navigationController?.popViewController(animated: true)
-        OAuth2Service.shared.fetchOAuthToken(code: code) { result in
-            print(result)
+        
+        OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let oAuthTokenResponseBody):
+                    self?.authStorageToken.token = oAuthTokenResponseBody.access_token
+                    assertionFailure("LOG: Token successfully saved.")
+                case .failure(let error):
+                    assertionFailure("LOG: Failed to fetch token: \(error.localizedDescription)")
+                }
+            }
         }
     }
     

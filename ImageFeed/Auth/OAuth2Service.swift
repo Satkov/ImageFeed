@@ -28,8 +28,10 @@ final class OAuth2Service {
         return request
     }
     
-    func fetchOAuthToken(code: String, handler: @escaping (Result<OAuth2Token, Error>) -> Void) {
+    func fetchOAuthToken(code: String, handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(code: code) else {
+            assertionFailure("LOG: Network Error: invalid request")
+            handler(.failure(NetworkError.invalidRequest))
             return
         }
         
@@ -37,14 +39,15 @@ final class OAuth2Service {
             switch result {
             case .success(let data):
                 do {
-                    let accessToken =  try JSONDecoder().decode(OAuth2Token.self, from: data)
+                    let accessToken = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
                     handler(.success(accessToken))
                 } catch {
+                    assertionFailure("LOG: Failed to decode response: \(error)")
                     handler(.failure(error))
                 }
             case .failure(let error):
+                assertionFailure("LOG: Network request failed: \(error)")
                 handler(.failure(error))
-                return
             }
         }
     }

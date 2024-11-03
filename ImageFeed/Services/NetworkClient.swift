@@ -1,29 +1,55 @@
 import Foundation
 
 struct NetworkClient: NetworkRoutingProtocol {
-
-    private enum NetworkError: Error {
-        case codeError
+    
+    private let session: URLSession
+    
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
     }
-
+    
     func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                handler(.failure(error))
-                return
+        let fulfillHandlerOnTheMainThread: (Result<Data, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                handler(result)
             }
-
-            if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
-                handler(.failure(NetworkError.codeError))
-                return
-            }
-
-            guard let data = data else { return }
-            handler(.success(data))
         }
-
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                logError(error)
+                fulfillHandlerOnTheMainThread(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let responseError = NetworkError.invalidResponse
+                logError(responseError)
+                fulfillHandlerOnTheMainThread(.failure(responseError))
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                let statusError = NetworkError.httpStatusCode(httpResponse.statusCode)
+                logError(statusError)
+                fulfillHandlerOnTheMainThread(.failure(statusError))
+                return
+            }
+            
+            guard let data = data else {
+                let noDataError = NetworkError.noData
+                logError(noDataError)
+                fulfillHandlerOnTheMainThread(.failure(noDataError))
+                return
+            }
+            
+            fulfillHandlerOnTheMainThread(.success(data))
+        }
+        
         task.resume()
+    }
+    
+    private func logError(_ error: Error) {
+        assertionFailure("LOG: Network error occurred: \(error.localizedDescription)")
     }
 }
