@@ -4,6 +4,7 @@ import WebKit
 final class WebViewViewController: UIViewController {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
+    var lastLoadedUrl: URL?
 
     weak var delegate: WebViewViewControllerDelegate?
     
@@ -86,13 +87,14 @@ final class WebViewViewController: UIViewController {
 
 
 extension WebViewViewController: WKNavigationDelegate {
-    private func webView(_ webView: WKWebView,
+    
+    func webView(_ webView: WKWebView,
                          decidePolicyFor navigationAction: WKNavigationAction,
-                         preferences: WKWebpagePreferences,
                          decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        print("its lit", navigationAction.request.url)
         if let code = code(from: navigationAction) {
-            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
+            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
         } else {
             decisionHandler(.allow)
             

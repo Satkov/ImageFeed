@@ -6,8 +6,7 @@ struct NetworkClient: NetworkRoutingProtocol {
         case codeError
     }
 
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
-        let request = URLRequest(url: url)
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {

@@ -3,6 +3,7 @@ import WebKit
 
 class AuthViewController: UIViewController {
     let showWebViewSegueIdentifier = "ShowWebView"
+    let authService = OAuth2Service.shared
     
     
     override func viewDidLoad() {
@@ -34,14 +35,13 @@ class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        print(code)
-        print(":123123123132132")
+        navigationController?.popViewController(animated: true)
+        OAuth2Service.shared.fetchOAuthToken(code: code) { result in
+            print(result)
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        dismiss(animated: true)
-        print("ASasd")
+        navigationController?.popViewController(animated: true)
     }
-    
-    
 }
