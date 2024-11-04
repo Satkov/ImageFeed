@@ -6,7 +6,6 @@ final class WebViewViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
 
     // MARK: - Properties
-    var lastLoadedUrl: URL?
     weak var delegate: WebViewViewControllerDelegate?
 
     // MARK: - Lifecycle Methods
@@ -61,8 +60,8 @@ final class WebViewViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             progressView.topAnchor.constraint(equalTo: webView.safeAreaLayoutGuide.topAnchor),
-            progressView.leadingAnchor.constraint(equalTo: webView.safeAreaLayoutGuide.leadingAnchor),
-            progressView.trailingAnchor.constraint(equalTo: webView.safeAreaLayoutGuide.trailingAnchor)
+            progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 

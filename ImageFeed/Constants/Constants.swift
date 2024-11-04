@@ -5,7 +5,12 @@ enum Constants {
     static let secretKey: String = "IQ08tN8fsk4FO7YwathZ0qC3vo2UXlSgMjbmh32rjS0"
     static let redirectURI: String = "urn:ietf:wg:oauth:2.0:oob"
     static let accessScope: String = "public+read_user+write_likes"
-    static let defaultBaseURL: URL = URL(string: "https://api.unsplash.com")!
+    static let defaultBaseURL: URL = {
+        guard let url = URL(string: "https://api.unsplash.com") else {
+            fatalError("Invalid URL for defaultBaseURL")
+        }
+        return url
+    }()
 }
 
 enum WebViewConstants {

@@ -1,6 +1,6 @@
 import Foundation
 
-class OAuth2TokenStorage {
+final class OAuth2TokenStorage {
     private let tokenKey = "userAccessToken"
     private let userDafaults = UserDefaults.standard
 
