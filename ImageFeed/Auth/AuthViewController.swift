@@ -3,7 +3,7 @@ import WebKit
 
 // MARK: - AuthViewController
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     // MARK: - Properties
     
     let showWebViewSegueIdentifier = "ShowWebView"
@@ -52,8 +52,8 @@ extension AuthViewController: WebViewViewControllerDelegate {
         OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let oAuthTokenResponseBody):
-                    self?.authStorageToken.token = oAuthTokenResponseBody.access_token
+                case .success(let accessToken):
+                    self?.authStorageToken.token = accessToken
                     print("LOG: Token successfully saved.")
                     if let strongSelf = self {
                         strongSelf.delegate?.didAuthenticate(strongSelf)
