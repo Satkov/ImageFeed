@@ -1,5 +1,5 @@
 import Foundation
 
 protocol NetworkRoutingProtocol {
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void)
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask
 }

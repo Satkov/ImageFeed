@@ -7,6 +7,7 @@ final class ProfilePageViewController: UIViewController {
     private var nameLabel = UILabel()
     private var tagLabel = UILabel()
     private var bioLabel = UILabel()
+    private var profileService = ProfileService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,8 +16,14 @@ final class ProfilePageViewController: UIViewController {
         setupNameLabelView()
         setupTagLabelView()
         setupBioLabelView()
+        setupProfileData()
     }
-
+    
+    func setupProfileData() {
+        nameLabel.text = profileService.profile?.fullName
+        tagLabel.text = profileService.profile?.username
+        bioLabel.text = profileService.profile?.bio
+    }
     func setupProfileImageView() {
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(profileImage)

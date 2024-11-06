@@ -1,5 +1,6 @@
 import UIKit
 import WebKit
+import ProgressHUD
 
 // MARK: - AuthViewController
 
@@ -47,9 +48,9 @@ final class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         navigationController?.popViewController(animated: true)
-        
+        UIBlockingProgressHUD.show()
         // Запрос токена с использованием OAuth2Service
-        OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
+        authService.fetchOAuthToken(code: code) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let accessToken):
@@ -61,6 +62,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 case .failure(let error):
                     assertionFailure("LOG: Failed to fetch token: \(error.localizedDescription)")
                 }
+                UIBlockingProgressHUD.dismiss()
             }
         }
     }

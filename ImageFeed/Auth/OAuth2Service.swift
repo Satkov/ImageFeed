@@ -7,6 +7,9 @@ final class OAuth2Service {
     
     static let shared = OAuth2Service()
     private let networkClient = NetworkClient()
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
 
     private init() {}
 
@@ -37,14 +40,27 @@ final class OAuth2Service {
     // MARK: - Public Methods
 
     func fetchOAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if let _ = task, lastCode == code {
+            handler(.failure(NetworkError.invalidRequest))
+            return
+        }
+        if lastCode == code {
+            handler(.failure(NetworkError.invalidRequest))
+            return
+        }
+        task?.cancel()
+        lastCode = code
+        
         guard let request = makeOAuthTokenRequest(code: code) else {
             assertionFailure("LOG: Network Error: invalid request")
             handler(.failure(NetworkError.invalidRequest))
             return
         }
+        
 
         // Выполнение сетевого запроса
-        networkClient.fetch(request: request) { result in
+        task = networkClient.fetch(request: request) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
@@ -61,6 +77,9 @@ final class OAuth2Service {
                 assertionFailure("LOG: Network request failed: \(error.localizedDescription)")
                 handler(.failure(error))
             }
+            self?.task = nil
+            self?.lastCode = nil
         }
+        task?.resume()
     }
 }

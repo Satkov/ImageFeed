@@ -8,7 +8,7 @@ struct NetworkClient: NetworkRoutingProtocol {
         self.session = session
     }
 
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask {
         let fulfillHandlerOnTheMainThread: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 handler(result)
@@ -46,7 +46,7 @@ struct NetworkClient: NetworkRoutingProtocol {
             fulfillHandlerOnTheMainThread(.success(data))
         }
 
-        task.resume()
+        return task
     }
 
     private func logError(_ error: Error) {
