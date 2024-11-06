@@ -11,7 +11,7 @@ final class ProfileService {
     private(set) var profile: ProfilePageModel?
 
     private init() {}
-
+    
     // MARK: - Errors
 
     enum ProfileServiceError: Error {
@@ -41,7 +41,7 @@ final class ProfileService {
             assertionFailure("LOG: Network Error - Invalid URL")
             return nil
         }
-
+        
         guard let url = urlComponents.url else {
             assertionFailure("LOG: Network Error - Invalid URL components")
             return nil
@@ -53,14 +53,12 @@ final class ProfileService {
     }
     
     // MARK: - Fetch Profile
-    /// Сначала я сделал так, а в следующем уроке уже дали задачку делать фетч картинок через отдельный сервис
-    /// Я понимаю, что это не подходит под тз, но я подумал, что аватарка - такая же часть профиля
-    /// как и остальная информация пользователя. Как будто бы не будет ошибкой объединить это все здесь.
-    /// Я уже делал подобные функции раньше через диспетч группу и никогда не понимал, насколько это правильно
-    /// и можно ли так вообще в реальных проектах, поэтому решил узнать наверняка :)
+
+    /// Fetches profile information and profile image using DispatchGroup
     func fetchProfile(handler: @escaping (Result<ProfilePageModel, Error>) -> Void) {
         let profileInfoGroup = DispatchGroup()
         let profileImageGroup = DispatchGroup()
+        
         var fetchedProfileInfo: ProfileInfo?
         var fetchedProfileImage: ProfileImage?
         
@@ -105,7 +103,6 @@ final class ProfileService {
                 handler(.success(profilePageModel))
             } else {
                 handler(.failure(ProfileServiceError.failedToFetchProfileInfo))
-                return
             }
         }
     }
@@ -122,22 +119,16 @@ final class ProfileService {
         )
     }
 
-    // MARK: - Fetch Profile Info
-
-    private func fetchProfileInfo(handler: @escaping (Result<ProfileInfo, Error>) -> Void) {
-        guard let request = makeRequestWithUserBearerToken(urlString: UnsplashProfileURL.me.urlString) else {
-            assertionFailure("LOG: Network Error - Invalid request")
-            handler(.failure(NetworkError.invalidRequest))
-            return
-        }
-
-        let task = networkClient.fetch(request: request) { result in
+    // MARK: - Create tasks
+    
+    func createTask<T: Decodable>(request: URLRequest, handler: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
+        networkClient.fetch(request: request) { result in
             switch result {
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let profileInfo = try decoder.decode(ProfileInfo.self, from: data)
+                    let profileInfo = try decoder.decode(T.self, from: data)
                     handler(.success(profileInfo))
                 } catch {
                     assertionFailure("LOG: Decoding error - \(error.localizedDescription)")
@@ -148,6 +139,18 @@ final class ProfileService {
                 handler(.failure(error))
             }
         }
+    }
+    
+    // MARK: - Fetch Profile Info
+    
+    private func fetchProfileInfo(handler: @escaping (Result<ProfileInfo, Error>) -> Void) {
+        guard let request = makeRequestWithUserBearerToken(urlString: UnsplashProfileURL.me.urlString) else {
+            assertionFailure("LOG: Network Error - Invalid request")
+            handler(.failure(NetworkError.invalidRequest))
+            return
+        }
+
+        let task = createTask(request: request, handler: handler)
         task.resume()
     }
     
@@ -160,22 +163,7 @@ final class ProfileService {
             return
         }
 
-        let task = networkClient.fetch(request: request) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    let profileImage = try decoder.decode(ProfileImage.self, from: data)
-                    handler(.success(profileImage))
-                } catch {
-                    assertionFailure("LOG: Decoding error - \(error.localizedDescription)")
-                    handler(.failure(error))
-                }
-            case .failure(let error):
-                assertionFailure("LOG: Network request failed - \(error.localizedDescription)")
-                handler(.failure(error))
-            }
-        }
+        let task = createTask(request: request, handler: handler)
         task.resume()
     }
 }
