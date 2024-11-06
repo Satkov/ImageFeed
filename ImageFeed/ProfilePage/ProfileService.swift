@@ -121,15 +121,15 @@ final class ProfileService {
 
     // MARK: - Create tasks
     
-    func createTask<T: Decodable>(request: URLRequest, handler: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
+    private func createTask<T: Decodable>(request: URLRequest, handler: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
         networkClient.fetch(request: request) { result in
             switch result {
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let profileInfo = try decoder.decode(T.self, from: data)
-                    handler(.success(profileInfo))
+                    let decodedData = try decoder.decode(T.self, from: data)
+                    handler(.success(decodedData))
                 } catch {
                     assertionFailure("LOG: Decoding error - \(error.localizedDescription)")
                     handler(.failure(error))
