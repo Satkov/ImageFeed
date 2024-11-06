@@ -10,8 +10,6 @@ final class OAuth2Service {
 
     private init() {}
 
-    // MARK: - Public Methods
-
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else {
             assertionFailure("LOG: Network Error: invalid url")
@@ -35,6 +33,8 @@ final class OAuth2Service {
         request.httpMethod = "POST"
         return request
     }
+    
+    // MARK: - Public Methods
 
     func fetchOAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(code: code) else {
@@ -49,7 +49,9 @@ final class OAuth2Service {
             case .success(let data):
                 do {
                     // Декодирование ответа
-                    let responseJSONData = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let responseJSONData = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     handler(.success(responseJSONData.accessToken))
                 } catch {
                     assertionFailure("LOG: Failed to decode response: \(error.localizedDescription)")
