@@ -12,9 +12,12 @@ struct ProfileInfo: Decodable {
     var lastName: String
     var username: String
     var bio: String?
+    var fullName: String {
+        "\(self.firstName) \(self.lastName)"
+    }
 }
 
-struct ProfileImage: Decodable {
+struct ProfileImageURL: Decodable {
     var image: ImagesSizes
     
     enum CodingKeys: String, CodingKey {

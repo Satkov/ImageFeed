@@ -4,7 +4,8 @@ final class SplashViewController: UIViewController {
     private let showAuthViewControllerIdentifier = "showAuthView"
     private let authTokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
-
+    private let profileimageService = ProfileImageService.shared
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let _ = authTokenStorage.token {
@@ -13,14 +14,14 @@ final class SplashViewController: UIViewController {
             performSegue(withIdentifier: showAuthViewControllerIdentifier, sender: nil)
         }
     }
-
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
-
+    
 }
 
 extension SplashViewController {
@@ -35,7 +36,7 @@ extension SplashViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-
+    
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
@@ -45,20 +46,20 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchProfile() {
-            UIBlockingProgressHUD.show()
-            profileService.fetchProfile() { [weak self] result in
-                UIBlockingProgressHUD.dismiss()
-
-                guard let self = self else { return }
-
-                switch result {
-                case .success:
-                   self.switchToTabBarController()
-
-                case .failure:
-                    // TODO [Sprint 11] Покажите ошибку получения профиля
-                    break
-                }
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile() { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                self.switchToTabBarController()
+                profileimageService.fetchProfileImage() { _ in }
+            case .failure:
+                // TODO [Sprint 11] Покажите ошибку получения профиля
+                break
             }
         }
+    }
 }
