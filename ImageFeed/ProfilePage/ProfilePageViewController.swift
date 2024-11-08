@@ -2,117 +2,128 @@ import UIKit
 import Kingfisher
 
 final class ProfilePageViewController: UIViewController {
-    private var profileImage = UIImageView()
-    private var exitButton = UIButton()
-    private var nameLabel = UILabel()
-    private var tagLabel = UILabel()
-    private var bioLabel = UILabel()
-    private var profileService = ProfileService.shared
+    
+    // MARK: - UI Elements
+    private let profileImageView = UIImageView()
+    private let exitButton = UIButton()
+    private let nameLabel = UILabel()
+    private let tagLabel = UILabel()
+    private let bioLabel = UILabel()
+    
+    // MARK: - Services
+    private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "YP Black")
+        configureView()
         setupProfileImageView()
-        setupExitButtonView()
-        setupNameLabelView()
-        setupTagLabelView()
-        setupBioLabelView()
-        setupProfileData()
-        addObserverProfileImage()
-        updateAvatar()
-    }
-    private func addObserverProfileImage() {
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
+        setupExitButton()
+        setupNameLabel()
+        setupTagLabel()
+        setupBioLabel()
+        loadProfileData()
+        addObserverForProfileImage()
+        updateAvatarImage()
     }
 
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.profileImageURL?.image.large,
-            let url = URL(string: profileImageURL)
-        else { return }
+    // MARK: - Configuration
+    private func configureView() {
+        view.backgroundColor = UIColor(named: "YP Black")
+    }
+    
+    // MARK: - Observers
+    private func addObserverForProfileImage() {
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateAvatarImage()
+        }
+    }
+
+    // MARK: - Avatar Image
+    private func updateAvatarImage() {
+        guard let profileImageURL = ProfileImageService.shared.profileImageURL?.image.large,
+              let url = URL(string: profileImageURL) else { return }
+        
         let processor = RoundCornerImageProcessor(cornerRadius: 90)
-        profileImage.kf.setImage(with: url,
-                                 placeholder: UIImage(named: "placeholder"),
-                                 options: [.processor(processor)])
+        profileImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder"),
+            options: [.processor(processor)]
+        )
     }
 
-    func setupProfileData() {
+    // MARK: - Profile Data
+    private func loadProfileData() {
         nameLabel.text = profileService.profile?.fullName
         tagLabel.text = profileService.profile?.username
         bioLabel.text = profileService.profile?.bio
     }
-    func setupProfileImageView() {
-        profileImage.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(profileImage)
-        profileImage.layer.cornerRadius = 35
-        profileImage.clipsToBounds = true
 
+    // MARK: - UI Setup Methods
+    private func setupProfileImageView() {
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        profileImageView.layer.cornerRadius = 35
+        profileImageView.clipsToBounds = true
+        view.addSubview(profileImageView)
+        
         NSLayoutConstraint.activate([
-            profileImage.widthAnchor.constraint(equalToConstant: 70),
-            profileImage.heightAnchor.constraint(equalToConstant: 70),
-            profileImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
-            profileImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
+            profileImageView.widthAnchor.constraint(equalToConstant: 70),
+            profileImageView.heightAnchor.constraint(equalToConstant: 70),
+            profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
+            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
     }
 
-    func setupExitButtonView() {
+    private func setupExitButton() {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.setImage(UIImage(named: "exit_button"), for: .normal)
         view.addSubview(exitButton)
-        let buttonImage = UIImage(named: "exit_button")
-        exitButton.setImage(buttonImage, for: .normal)
-
+        
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: 44),
             exitButton.heightAnchor.constraint(equalToConstant: 44),
-            exitButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
+            exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
             exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
 
-    func setupNameLabelView() {
+    private func setupNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(nameLabel)
-        nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "YP White")
         nameLabel.font = UIFont(name: "SFProDisplay-Bold", size: 23)
-
+        view.addSubview(nameLabel)
+        
         NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 8)
+            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8)
         ])
     }
 
-    func setupTagLabelView() {
+    private func setupTagLabel() {
         tagLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tagLabel)
-        tagLabel.text = "@ekaterina_nov"
         tagLabel.textColor = UIColor(named: "YP Gray")
         tagLabel.font = .systemFont(ofSize: 13)
-
+        view.addSubview(tagLabel)
+        
         NSLayoutConstraint.activate([
-            tagLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+            tagLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             tagLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
     }
 
-    func setupBioLabelView() {
+    private func setupBioLabel() {
         bioLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bioLabel)
-        bioLabel.text = "@Hello, world!"
         bioLabel.textColor = UIColor(named: "YP White")
         bioLabel.font = .systemFont(ofSize: 13)
-
+        view.addSubview(bioLabel)
+        
         NSLayoutConstraint.activate([
-            bioLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+            bioLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)
         ])
     }
