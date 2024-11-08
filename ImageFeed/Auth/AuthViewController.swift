@@ -7,20 +7,20 @@ import SwiftKeychainWrapper
 
 final class AuthViewController: UIViewController {
     // MARK: - Properties
-    
+
     let showWebViewSegueIdentifier = "ShowWebView"
     let authService = OAuth2Service.shared
     weak var delegate: AuthViewControllerDelegate?
 
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
     }
 
     // MARK: - Navigation
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
             guard let webViewViewController = segue.destination as? WebViewViewController else {
@@ -34,7 +34,7 @@ final class AuthViewController: UIViewController {
     }
 
     // MARK: - Private Methods
-    
+
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "backward_button_black")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "backward_button_black")
@@ -71,7 +71,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             }
         }
     }
-    
+
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         navigationController?.popViewController(animated: true)
     }

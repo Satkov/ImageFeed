@@ -12,7 +12,7 @@ struct ProfileInfo: Decodable {
 
 struct ProfileImageURL: Decodable {
     var image: ImagesSizes
-    
+
     enum CodingKeys: String, CodingKey {
         case image = "profileImage"
     }

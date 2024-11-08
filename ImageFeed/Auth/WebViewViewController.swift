@@ -4,12 +4,10 @@ import WebKit
 final class WebViewViewController: UIViewController {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
-    
 
     // MARK: - Properties
     weak var delegate: WebViewViewControllerDelegate?
     private var estimatedProgressObservation: NSKeyValueObservation?
-
 
     // MARK: - Lifecycle Methods
 
