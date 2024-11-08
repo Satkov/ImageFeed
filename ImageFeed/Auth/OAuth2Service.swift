@@ -41,7 +41,7 @@ final class OAuth2Service {
     
     // MARK: - Public Methods
     
-    func fetchOAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+    func fetchOAuthToken(code: String, handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
         assert(Thread.isMainThread)
         
         // Проверка на дубликат запроса

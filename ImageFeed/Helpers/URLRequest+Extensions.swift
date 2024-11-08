@@ -1,9 +1,10 @@
 import UIKit
+import SwiftKeychainWrapper
 
 extension URLRequest {
     mutating func addUserBearerToken() {
-        let tokenStorage = OAuth2TokenStorage()
-        guard let token = tokenStorage.token else {
+        let token = KeychainWrapper.standard.string(forKey: KeychainWrapper.keychainKeys.userToken)
+        guard let token = token else {
             assertionFailure("LOG: Network Error: invalid urlComponents")
             return
         }

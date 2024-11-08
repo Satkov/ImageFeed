@@ -8,6 +8,9 @@ final class UIBlockingProgressHUD {
     
     static func show() {
         window?.isUserInteractionEnabled = false
+        
+        ProgressHUD.animationType = .circleStrokeSpin
+        
         ProgressHUD.animate()
     }
     

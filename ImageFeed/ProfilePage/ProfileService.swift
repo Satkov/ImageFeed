@@ -9,7 +9,6 @@ final class ProfileService {
     static let shared = ProfileService()
     private let networkTaskManager = NetworkTaskManager()
     private let requestCacheManager = RequestCacheManager.shared
-    private let tokenStorage = OAuth2TokenStorage()
     private(set) var profile: ProfileInfo?
     
     private init() {}

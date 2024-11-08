@@ -1,12 +1,5 @@
 import Foundation
 
-struct ProfilePageModel {
-    var username: String
-    var fullName: String
-    var bio: String?
-    var profileImageURL: URL
-}
-
 struct ProfileInfo: Decodable {
     var firstName: String
     var lastName: String
@@ -26,7 +19,7 @@ struct ProfileImageURL: Decodable {
 }
 
 struct ImagesSizes: Decodable {
-    var small: URL
-    var medium: URL
-    var large: URL
+    var small: String
+    var medium: String
+    var large: String
 }

@@ -7,6 +7,7 @@ final class ProfileImageService {
     // MARK: - Properties
     
     static let shared = ProfileImageService()
+    static let didChangeNotification = Notification.Name("ProfileImageProviderDidChange")
     private let profileService = ProfileService.shared
     private let networkTaskManager = NetworkTaskManager()
     private let requestCacheManager = RequestCacheManager.shared
@@ -70,6 +71,11 @@ final class ProfileImageService {
         // Обновление состояния профиля после успешного запроса
         let updateState: (ProfileImageURL) -> Void = { [weak self] decodedData in
             self?.profileImageURL = decodedData
+            NotificationCenter.default
+                .post(
+                    name: ProfileImageService.didChangeNotification,
+                    object: self,
+                    userInfo: ["URL": decodedData.image.small])
         }
         
         // Выполнение сетевого запроса

@@ -1,6 +1,7 @@
 import UIKit
 import WebKit
 import ProgressHUD
+import SwiftKeychainWrapper
 
 // MARK: - AuthViewController
 
@@ -9,7 +10,6 @@ final class AuthViewController: UIViewController {
     
     let showWebViewSegueIdentifier = "ShowWebView"
     let authService = OAuth2Service.shared
-    let authStorageToken = OAuth2TokenStorage()
     weak var delegate: AuthViewControllerDelegate?
 
     // MARK: - Lifecycle
@@ -53,8 +53,13 @@ extension AuthViewController: WebViewViewControllerDelegate {
         authService.fetchOAuthToken(code: code) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let accessToken):
-                    self?.authStorageToken.token = accessToken
+                case .success(let OAuthTokenResponseBody):
+                    let token = OAuthTokenResponseBody.accessToken
+                    let isSuccess = KeychainWrapper.standard.set(token, forKey: KeychainWrapper.keychainKeys.userToken)
+                    guard isSuccess else {
+                        assertionFailure("LOG: Failed to save token into keyChain")
+                        return
+                    }
                     print("LOG: Token successfully saved.")
                     if let strongSelf = self {
                         strongSelf.delegate?.didAuthenticate(strongSelf)

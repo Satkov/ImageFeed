@@ -1,18 +1,48 @@
 import UIKit
+import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
+    private var iconView = UIImageView()
     private let showAuthViewControllerIdentifier = "showAuthView"
-    private let authTokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     private let profileimageService = ProfileImageService.shared
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupSplashView()
+    }
+    
+    func setupSplashView() {
+        view.backgroundColor = UIColor(named: "YP Black")
+        
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(iconView)
+        let icon = UIImage(named: "unsplash_logo")
+        iconView.image = icon
+        
+        NSLayoutConstraint.activate([
+            iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            iconView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _ = authTokenStorage.token {
+        if let _ = KeychainWrapper.standard.string(forKey: KeychainWrapper.keychainKeys.userToken) {
             fetchProfile()
         } else {
-            performSegue(withIdentifier: showAuthViewControllerIdentifier, sender: nil)
+            showAuthorizationScreen()
         }
+    }
+    
+    func showAuthorizationScreen() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            fatalError("AuthViewController не найден в storyboard")
+        }
+        authViewController.delegate = self
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true)
     }
     
     private func switchToTabBarController() {
@@ -25,17 +55,6 @@ final class SplashViewController: UIViewController {
 }
 
 extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showAuthViewControllerIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(showAuthViewControllerIdentifier)") }
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
     
 }
 
@@ -57,7 +76,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.switchToTabBarController()
                 profileimageService.fetchProfileImage() { _ in }
             case .failure:
-                // TODO [Sprint 11] Покажите ошибку получения профиля
+                fatalError("Failed to prepare profile")
                 break
             }
         }
