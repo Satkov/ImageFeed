@@ -3,7 +3,7 @@ import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
     // MARK: - Properties
-    
+
     private let iconView = UIImageView()
     private let showAuthViewControllerIdentifier = "showAuthView"
     private let profileService = ProfileService.shared
@@ -25,11 +25,11 @@ final class SplashViewController: UIViewController {
 
     private func setupSplashView() {
         view.backgroundColor = UIColor(named: "YP Black")
-        
+
         iconView.translatesAutoresizingMaskIntoConstraints = false
         iconView.image = UIImage(named: "unsplash_logo")
         view.addSubview(iconView)
-        
+
         NSLayoutConstraint.activate([
             iconView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             iconView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
@@ -81,7 +81,7 @@ extension SplashViewController: AuthViewControllerDelegate {
         profileService.fetchProfile { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             guard let self = self else { return }
-            
+
             switch result {
             case .success:
                 self.switchToTabBarController()

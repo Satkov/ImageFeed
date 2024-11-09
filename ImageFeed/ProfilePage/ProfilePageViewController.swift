@@ -2,14 +2,14 @@ import UIKit
 import Kingfisher
 
 final class ProfilePageViewController: UIViewController {
-    
+
     // MARK: - UI Elements
     private let profileImageView = UIImageView()
     private let exitButton = UIButton()
     private let nameLabel = UILabel()
     private let tagLabel = UILabel()
     private let bioLabel = UILabel()
-    
+
     // MARK: - Services
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -32,7 +32,7 @@ final class ProfilePageViewController: UIViewController {
     private func configureView() {
         view.backgroundColor = UIColor(named: "YP Black")
     }
-    
+
     // MARK: - Observers
     private func addObserverForProfileImage() {
         profileImageServiceObserver = NotificationCenter.default.addObserver(
@@ -48,7 +48,7 @@ final class ProfilePageViewController: UIViewController {
     private func updateAvatarImage() {
         guard let profileImageURL = ProfileImageService.shared.profileImageURL?.image.large,
               let url = URL(string: profileImageURL) else { return }
-        
+
         let processor = RoundCornerImageProcessor(cornerRadius: 90)
         profileImageView.kf.setImage(
             with: url,
@@ -70,7 +70,7 @@ final class ProfilePageViewController: UIViewController {
         profileImageView.layer.cornerRadius = 35
         profileImageView.clipsToBounds = true
         view.addSubview(profileImageView)
-        
+
         NSLayoutConstraint.activate([
             profileImageView.widthAnchor.constraint(equalToConstant: 70),
             profileImageView.heightAnchor.constraint(equalToConstant: 70),
@@ -83,7 +83,7 @@ final class ProfilePageViewController: UIViewController {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.setImage(UIImage(named: "exit_button"), for: .normal)
         view.addSubview(exitButton)
-        
+
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: 44),
             exitButton.heightAnchor.constraint(equalToConstant: 44),
@@ -97,7 +97,7 @@ final class ProfilePageViewController: UIViewController {
         nameLabel.textColor = UIColor(named: "YP White")
         nameLabel.font = UIFont(name: "SFProDisplay-Bold", size: 23)
         view.addSubview(nameLabel)
-        
+
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8)
@@ -109,7 +109,7 @@ final class ProfilePageViewController: UIViewController {
         tagLabel.textColor = UIColor(named: "YP Gray")
         tagLabel.font = .systemFont(ofSize: 13)
         view.addSubview(tagLabel)
-        
+
         NSLayoutConstraint.activate([
             tagLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             tagLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
@@ -121,7 +121,7 @@ final class ProfilePageViewController: UIViewController {
         bioLabel.textColor = UIColor(named: "YP White")
         bioLabel.font = .systemFont(ofSize: 13)
         view.addSubview(bioLabel)
-        
+
         NSLayoutConstraint.activate([
             bioLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)

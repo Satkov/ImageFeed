@@ -44,4 +44,3 @@ final class RequestCacheManager {
         activeTasks[key] = nil
     }
 }
-

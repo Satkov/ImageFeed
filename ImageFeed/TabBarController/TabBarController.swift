@@ -5,7 +5,7 @@ final class TabBarController: UITabBarController {
         super.awakeFromNib()
         setupTabBarControllers()
     }
-    
+
     private func setupTabBarControllers() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
 
