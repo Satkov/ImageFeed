@@ -17,7 +17,7 @@ final class OAuth2Service {
 
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else {
-            assertionFailure("LOG: Network Error: Invalid URL")
+            logError(message: "Network Error: Invalid URL")
             return nil
         }
 
@@ -30,7 +30,7 @@ final class OAuth2Service {
         ]
 
         guard let url = urlComponents.url else {
-            assertionFailure("LOG: Network Error: Invalid URL components")
+            logError(message: "Network Error: Invalid URL components")
             return nil
         }
 
@@ -42,7 +42,12 @@ final class OAuth2Service {
     // MARK: - Public Methods
 
     func fetchOAuthToken(code: String, handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
-        assert(Thread.isMainThread)
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.fetchOAuthToken(code: code, handler: handler)
+                return
+            }
+        }
 
         // Проверка на дубликат запроса
         if requestCacheManager.isDuplicateRequest(for: cacheKey, identifier: code) {

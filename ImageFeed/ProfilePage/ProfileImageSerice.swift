@@ -27,7 +27,7 @@ final class ProfileImageService {
 
     private func makeAuthenticatedRequest(for urlString: String) -> URLRequest? {
         guard let url = URL(string: urlString) else {
-            assertionFailure("LOG: Network Error - Invalid URL")
+            logError(message: "Network Error - Invalid URL")
             return nil
         }
 
@@ -49,7 +49,12 @@ final class ProfileImageService {
     }
 
     private func fetchProfileImageURL(username: String, handler: @escaping (Result<ProfileImageURL, Error>) -> Void) {
-        assert(Thread.isMainThread)
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.fetchProfileImageURL(username: username, handler: handler)
+                return
+            }
+        }
 
         let cacheKey = "ProfileImageService"
 

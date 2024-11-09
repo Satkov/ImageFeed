@@ -54,7 +54,7 @@ final class NetworkTaskManager {
             updateState?(decodedData)
             handler(.success(decodedData))
         } catch {
-            assertionFailure("LOG: Decoding error - \(error.localizedDescription)")
+            logError(message: "Decoding error", error: error)
             handler(.failure(error))
         }
     }
@@ -63,7 +63,7 @@ final class NetworkTaskManager {
         _ error: Error,
         handler: @escaping (Result<T, Error>) -> Void
     ) {
-        assertionFailure("LOG: Network request failed - \(error.localizedDescription)")
+        logError(message: "Network request failed ", error: error)
         handler(.failure(error))
     }
 }

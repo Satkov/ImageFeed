@@ -23,7 +23,7 @@ final class ProfileService {
 
     private func makeAuthenticatedRequest(for urlString: String) -> URLRequest? {
         guard let url = URL(string: urlString) else {
-            assertionFailure("LOG: Network Error - Invalid URL")
+            logError(message: "Network Error - Invalid URL")
             return nil
         }
 
@@ -35,7 +35,12 @@ final class ProfileService {
     // MARK: - Fetch Profile
 
     func fetchProfile(handler: @escaping (Result<ProfileInfo, Error>) -> Void) {
-        assert(Thread.isMainThread)
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.fetchProfile(handler: handler)
+                return
+            }
+        }
 
         // Проверка на дубликат запроса
         let cacheKey = "ProfileService"

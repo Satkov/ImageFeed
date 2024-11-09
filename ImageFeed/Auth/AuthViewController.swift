@@ -24,7 +24,7 @@ final class AuthViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
             guard let webViewViewController = segue.destination as? WebViewViewController else {
-                assertionFailure("LOG: Failed to prepare for \(showWebViewSegueIdentifier)")
+                logError(message: "Failed to prepare for \(showWebViewSegueIdentifier)")
                 return
             }
             webViewViewController.delegate = self
@@ -57,7 +57,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                     let token = OAuthTokenResponseBody.accessToken
                     let isSuccess = KeychainWrapper.standard.set(token, forKey: KeychainWrapper.keychainKeys.userToken)
                     guard isSuccess else {
-                        assertionFailure("LOG: Failed to save token into keyChain")
+                        logError(message: "Failed to save token into keyChain")
                         return
                     }
                     print("LOG: Token successfully saved.")
@@ -65,7 +65,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                         strongSelf.delegate?.didAuthenticate(strongSelf)
                     }
                 case .failure(let error):
-                    assertionFailure("LOG: Failed to fetch token: \(error.localizedDescription)")
+                    logError(message: "Failed to fetch token", error: error)
                 }
                 UIBlockingProgressHUD.dismiss()
             }

@@ -21,7 +21,7 @@ final class ImagesListViewController: UIViewController {
         if segue.identifier == Constants.showSingleImageSegueIdentifier {
             guard let viewController = segue.destination as? SingleImageViewController,
                   let indexPath = sender as? IndexPath else {
-                assertionFailure("Invalid sender or destination")
+                logError(message: "Invalid sender or destination")
                 return
             }
             let image = UIImage(named: photosName[indexPath.row])

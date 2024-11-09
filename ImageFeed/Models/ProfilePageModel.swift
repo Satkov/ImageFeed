@@ -2,11 +2,11 @@ import Foundation
 
 struct ProfileInfo: Decodable {
     var firstName: String
-    var lastName: String
+    var lastName: String?
     var username: String
     var bio: String?
     var fullName: String {
-        "\(self.firstName) \(self.lastName)"
+        "\(firstName) \(lastName ?? "")"
     }
 }
 
