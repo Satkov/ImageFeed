@@ -1,84 +1,129 @@
 import UIKit
+import Kingfisher
 
 final class ProfilePageViewController: UIViewController {
-    @IBOutlet var contentView: UIView!
-    private var profileImage = UIImageView()
-    private var exitButton = UIButton()
-    private var nameLabel = UILabel()
-    private var tagLabel = UILabel()
-    private var bioLabel = UILabel()
 
+    // MARK: - UI Elements
+    private let profileImageView = UIImageView()
+    private let exitButton = UIButton()
+    private let nameLabel = UILabel()
+    private let tagLabel = UILabel()
+    private let bioLabel = UILabel()
+
+    // MARK: - Services
+    private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureView()
         setupProfileImageView()
-        setupExitButtonView()
-        setupNameLabelView()
-        setupTagLabelView()
-        setupBioLabelView()
+        setupExitButton()
+        setupNameLabel()
+        setupTagLabel()
+        setupBioLabel()
+        loadProfileData()
+        addObserverForProfileImage()
+        updateAvatarImage()
     }
 
-    func setupProfileImageView() {
-        profileImage.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(profileImage)
-        profileImage.image = UIImage(named: "profile_photo")
+    // MARK: - Configuration
+    private func configureView() {
+        view.backgroundColor = UIColor(named: "YP Black")
+    }
+
+    // MARK: - Observers
+    private func addObserverForProfileImage() {
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateAvatarImage()
+        }
+    }
+
+    // MARK: - Avatar Image
+    private func updateAvatarImage() {
+        guard let profileImageURL = ProfileImageService.shared.profileImageURL?.image.large,
+              let url = URL(string: profileImageURL) else { return }
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 90)
+        profileImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder"),
+            options: [.processor(processor)]
+        )
+    }
+
+    // MARK: - Profile Data
+    private func loadProfileData() {
+        nameLabel.text = profileService.profile?.fullName
+        tagLabel.text = profileService.profile?.username
+        bioLabel.text = profileService.profile?.bio
+    }
+
+    // MARK: - UI Setup Methods
+    private func setupProfileImageView() {
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        profileImageView.layer.cornerRadius = 35
+        profileImageView.clipsToBounds = true
+        view.addSubview(profileImageView)
 
         NSLayoutConstraint.activate([
-            profileImage.widthAnchor.constraint(equalToConstant: 70),
-            profileImage.heightAnchor.constraint(equalToConstant: 70),
-            profileImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 76),
-            profileImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+            profileImageView.widthAnchor.constraint(equalToConstant: 70),
+            profileImageView.heightAnchor.constraint(equalToConstant: 70),
+            profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
+            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
     }
 
-    func setupExitButtonView() {
+    private func setupExitButton() {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(exitButton)
-        let buttonImage = UIImage(named: "exit_button")
-        exitButton.setImage(buttonImage, for: .normal)
+        exitButton.setImage(UIImage(named: "exit_button"), for: .normal)
+        view.addSubview(exitButton)
 
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: 44),
             exitButton.heightAnchor.constraint(equalToConstant: 44),
-            exitButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
-            exitButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
 
-    func setupNameLabelView() {
+    private func setupNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(nameLabel)
-        nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "YP White")
         nameLabel.font = UIFont(name: "SFProDisplay-Bold", size: 23)
+        view.addSubview(nameLabel)
 
         NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 8)
+            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8)
         ])
     }
 
-    func setupTagLabelView() {
+    private func setupTagLabel() {
         tagLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(tagLabel)
-        tagLabel.text = "@ekaterina_nov"
         tagLabel.textColor = UIColor(named: "YP Gray")
         tagLabel.font = .systemFont(ofSize: 13)
+        view.addSubview(tagLabel)
 
         NSLayoutConstraint.activate([
-            tagLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+            tagLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             tagLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
     }
 
-    func setupBioLabelView() {
+    private func setupBioLabel() {
         bioLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(bioLabel)
-        bioLabel.text = "@Hello, world!"
         bioLabel.textColor = UIColor(named: "YP White")
         bioLabel.font = .systemFont(ofSize: 13)
+        view.addSubview(bioLabel)
 
         NSLayoutConstraint.activate([
-            bioLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+            bioLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)
         ])
     }

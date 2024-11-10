@@ -13,7 +13,7 @@ final class ImagesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.backgroundColor = .ypBlack        
+        tableView.backgroundColor = .ypBlack
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
 
@@ -21,7 +21,7 @@ final class ImagesListViewController: UIViewController {
         if segue.identifier == Constants.showSingleImageSegueIdentifier {
             guard let viewController = segue.destination as? SingleImageViewController,
                   let indexPath = sender as? IndexPath else {
-                assertionFailure("Invalid sender or destination")
+                logError(message: "Invalid sender or destination")
                 return
             }
             let image = UIImage(named: photosName[indexPath.row])

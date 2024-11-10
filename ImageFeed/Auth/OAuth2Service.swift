@@ -3,16 +3,21 @@ import UIKit
 // MARK: - OAuth2Service
 
 final class OAuth2Service {
+
     // MARK: - Properties
-    
+
     static let shared = OAuth2Service()
-    private let networkClient = NetworkClient()
+    private let networkTaskManager = NetworkTaskManager()
+    private let requestCacheManager = RequestCacheManager.shared
+    private let cacheKey = "OAuth2Service"
 
     private init() {}
 
+    // MARK: - Request Creation
+
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else {
-            assertionFailure("LOG: Network Error: invalid url")
+            logError(message: "Network Error: Invalid URL")
             return nil
         }
 
@@ -25,7 +30,7 @@ final class OAuth2Service {
         ]
 
         guard let url = urlComponents.url else {
-            assertionFailure("LOG: Network Error: invalid urlComponents")
+            logError(message: "Network Error: Invalid URL components")
             return nil
         }
 
@@ -33,34 +38,41 @@ final class OAuth2Service {
         request.httpMethod = "POST"
         return request
     }
-    
+
     // MARK: - Public Methods
 
-    func fetchOAuthToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+    func fetchOAuthToken(code: String, handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.fetchOAuthToken(code: code, handler: handler)
+                return
+            }
+        }
+
+        // Проверка на дубликат запроса
+        if requestCacheManager.isDuplicateRequest(for: cacheKey, identifier: code) {
+            handler(.failure(NetworkError.invalidRequest))
+            return
+        }
+
+        // Отменяем предыдущий запрос с этим кодом
+        requestCacheManager.cancelTask(for: cacheKey)
+
         guard let request = makeOAuthTokenRequest(code: code) else {
-            assertionFailure("LOG: Network Error: invalid request")
             handler(.failure(NetworkError.invalidRequest))
             return
         }
 
         // Выполнение сетевого запроса
-        networkClient.fetch(request: request) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    // Декодирование ответа
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let responseJSONData = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    handler(.success(responseJSONData.accessToken))
-                } catch {
-                    assertionFailure("LOG: Failed to decode response: \(error.localizedDescription)")
-                    handler(.failure(error))
-                }
-            case .failure(let error):
-                assertionFailure("LOG: Network request failed: \(error.localizedDescription)")
-                handler(.failure(error))
-            }
-        }
+        let task = networkTaskManager.performDecodedRequest(
+            request: request,
+            cacheKey: cacheKey,
+            cacheIdentifier: code,
+            handler: handler
+        )
+
+        // Сохраняем активную задачу
+        requestCacheManager.setActiveTask(task, for: cacheKey, with: code)
+        task.resume()
     }
 }

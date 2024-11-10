@@ -8,7 +8,7 @@ struct NetworkClient: NetworkRoutingProtocol {
         self.session = session
     }
 
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask {
         let fulfillHandlerOnTheMainThread: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 handler(result)
@@ -17,28 +17,28 @@ struct NetworkClient: NetworkRoutingProtocol {
 
         let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
-                logError(error)
+                logError(message: "Network error occurred", error: error)
                 fulfillHandlerOnTheMainThread(.failure(error))
                 return
             }
 
             guard let httpResponse = response as? HTTPURLResponse else {
                 let responseError = NetworkError.invalidResponse
-                logError(responseError)
+                logError(message: "Network error occurred", error: responseError)
                 fulfillHandlerOnTheMainThread(.failure(responseError))
                 return
             }
 
             guard (200...299).contains(httpResponse.statusCode) else {
                 let statusError = NetworkError.httpStatusCode(httpResponse.statusCode)
-                logError(statusError)
+                logError(message: "Network error occurred", error: statusError)
                 fulfillHandlerOnTheMainThread(.failure(statusError))
                 return
             }
 
             guard let data = data else {
                 let noDataError = NetworkError.noData
-                logError(noDataError)
+                logError(message: "Network error occurred", error: noDataError)
                 fulfillHandlerOnTheMainThread(.failure(noDataError))
                 return
             }
@@ -46,10 +46,6 @@ struct NetworkClient: NetworkRoutingProtocol {
             fulfillHandlerOnTheMainThread(.success(data))
         }
 
-        task.resume()
-    }
-
-    private func logError(_ error: Error) {
-        assertionFailure("LOG: Network error occurred: \(error.localizedDescription)")
+        return task
     }
 }
