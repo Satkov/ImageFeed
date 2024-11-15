@@ -14,14 +14,6 @@ final class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tokenKey = KeychainWrapper.keychainKeys.userToken
-        let isRemoved = KeychainWrapper.standard.removeObject(forKey: tokenKey)
-        
-        if isRemoved {
-            print("LOG: Token successfully removed.")
-        } else {
-            print("LOG: Failed to remove token.")
-        }
         setupSplashView()
     }
 

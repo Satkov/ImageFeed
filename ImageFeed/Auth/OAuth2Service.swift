@@ -70,6 +70,7 @@ final class OAuth2Service {
         let task = networkTaskManager.performDecodedRequest(
             request: request,
             cacheKey: cacheKey,
+            decoder: decoder,
             cacheIdentifier: code,
             handler: handler
         )

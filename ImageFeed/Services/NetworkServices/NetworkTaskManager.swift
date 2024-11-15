@@ -56,14 +56,6 @@ final class NetworkTaskManager {
     ) {
         switch result {
         case .success(let data):
-            // Преобразуем `data` в JSON для красивой печати
-            if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
-               let prettyPrintedData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted),
-               let jsonString = String(data: prettyPrintedData, encoding: .utf8) {
-                print("LOG: Data received:\n\(jsonString)")
-            } else {
-                print("LOG: Data received: \(data)")
-            }
             decodeData(data, updateState: updateState, decoder: decoder, handler: handler)
         case .failure(let error):
             logAndHandleError(error, handler: handler)
