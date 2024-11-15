@@ -8,11 +8,20 @@ final class SplashViewController: UIViewController {
     private let showAuthViewControllerIdentifier = "showAuthView"
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let imagesListService = ImagesListService.shared
 
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tokenKey = KeychainWrapper.keychainKeys.userToken
+        let isRemoved = KeychainWrapper.standard.removeObject(forKey: tokenKey)
+        
+        if isRemoved {
+            print("LOG: Token successfully removed.")
+        } else {
+            print("LOG: Failed to remove token.")
+        }
         setupSplashView()
     }
 
@@ -86,8 +95,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 self.switchToTabBarController()
                 self.profileImageService.fetchProfileImage { _ in }
+                self.imagesListService.fetchPhotosNextPage() { _ in }
+                
             case .failure(let error):
-                logMessageOrError(message: "Failed to prepare profile", error: error)
+                logError(message: "Failed to prepare profile", error: error)
             }
         }
     }

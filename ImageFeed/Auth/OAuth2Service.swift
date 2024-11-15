@@ -63,6 +63,9 @@ final class OAuth2Service {
             return
         }
 
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
         // Выполнение сетевого запроса
         let task = networkTaskManager.performDecodedRequest(
             request: request,

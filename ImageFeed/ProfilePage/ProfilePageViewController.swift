@@ -12,6 +12,7 @@ final class ProfilePageViewController: UIViewController {
 
     // MARK: - Services
     private let profileService = ProfileService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
 
     // MARK: - Lifecycle
@@ -83,6 +84,8 @@ final class ProfilePageViewController: UIViewController {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.setImage(UIImage(named: "exit_button"), for: .normal)
         view.addSubview(exitButton)
+        
+        exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: 44),
@@ -126,5 +129,14 @@ final class ProfilePageViewController: UIViewController {
             bioLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)
         ])
+    }
+    
+    @objc private func exitButtonTapped() {
+        profileLogoutService.logout()
+        
+        let newViewController = SplashViewController()
+        let window = UIApplication.shared.windows.first
+        window?.rootViewController = newViewController
+        window?.makeKeyAndVisible()
     }
 }

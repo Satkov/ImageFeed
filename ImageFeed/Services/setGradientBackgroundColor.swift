@@ -11,3 +11,5 @@ func setGradientBackgroundColor(for view: UIView) {
 
     view.layer.insertSublayer(gradientLayer, at: 0)
 }
+
+

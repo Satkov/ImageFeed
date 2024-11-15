@@ -19,19 +19,6 @@ final class ProfileService {
         static let me = "https://api.unsplash.com/me"
     }
 
-    // MARK: - Request Creation
-
-    private func makeAuthenticatedRequest(for urlString: String) -> URLRequest? {
-        guard let url = URL(string: urlString) else {
-            logError(message: "Network Error - Invalid URL")
-            return nil
-        }
-
-        var request = URLRequest(url: url)
-        request.addUserBearerToken()
-        return request
-    }
-
     // MARK: - Fetch Profile
 
     func fetchProfile(handler: @escaping (Result<ProfileInfo, Error>) -> Void) {
@@ -61,17 +48,25 @@ final class ProfileService {
         let updateState: (ProfileInfo) -> Void = { [weak self] profile in
             self?.profile = profile
         }
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
 
         // Выполнение сетевого запроса
         let task = networkTaskManager.performDecodedRequest(
             request: request,
             updateState: updateState,
             cacheKey: cacheKey,
+            decoder: decoder,
             cacheIdentifier: "",
             handler: handler
         )
 
         requestCacheManager.setActiveTask(task, for: cacheKey, with: "")
         task.resume()
+    }
+    
+    func prepareForLogout() {
+        profile = nil
     }
 }
