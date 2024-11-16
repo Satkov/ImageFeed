@@ -72,7 +72,7 @@ final class ProfileImageService {
 
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
+
         // Выполнение сетевого запроса
         let task = networkTaskManager.performDecodedRequest(
             request: request,
@@ -86,7 +86,7 @@ final class ProfileImageService {
         requestCacheManager.setActiveTask(task, for: cacheKey, with: username)
         task.resume()
     }
-    
+
     func prepareForLogout() {
         profileImageURL = nil
     }

@@ -49,7 +49,7 @@ final class ProfileService {
         let updateState: (ProfileInfo) -> Void = { [weak self] profile in
             self?.profile = profile
         }
-        
+
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
 
@@ -66,7 +66,7 @@ final class ProfileService {
         requestCacheManager.setActiveTask(task, for: cacheKey, with: "")
         task.resume()
     }
-    
+
     func prepareForLogout() {
         profile = nil
     }

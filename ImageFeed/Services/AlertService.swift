@@ -1,10 +1,10 @@
 import UIKit
 
 final class AlertService {
-    
+
     static let shared = AlertService()
     private init() {}
-    
+
     func showAlert(
         title: String,
         message: String,
@@ -30,7 +30,7 @@ final class AlertService {
         cancelAction: (() -> Void)? = nil
     ) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
+
         let confirm = UIAlertAction(title: confirmButtonTitle, style: .default) { _ in
             print("LOG: User confirm logout")
             confirmAction?()
@@ -39,10 +39,10 @@ final class AlertService {
             print("LOG: User cancel logout")
             cancelAction?()
         }
-        
+
         alert.addAction(confirm)
         alert.addAction(cancel)
-        
+
         viewController.present(alert, animated: true)
     }
 }

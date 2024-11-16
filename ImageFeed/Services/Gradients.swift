@@ -12,7 +12,6 @@ func setGradientBackgroundColor(for view: UIView) {
     view.layer.insertSublayer(gradientLayer, at: 0)
 }
 
-
 func setGradientForPlaceholder(for view: UIView, animationLayers: inout Set<CALayer>, cornerRadius: CGFloat? = nil) {
     let gradient = CAGradientLayer()
     gradient.frame = CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: view.frame.height))

@@ -30,17 +30,17 @@ final class ImagesListService {
                 self?.fetchPhotosNextPage(handler: handler)
             }
         }
-        
+
         let cacheKey = "ImagesListService"
         let cacheIdentifier = "\(lastLoadedPage ?? 0)"
-        
+
         if requestCacheManager.isDuplicateRequest(for: cacheKey, identifier: cacheIdentifier) {
             handler(.failure(NetworkError.invalidRequest))
             return
         }
-        
+
         requestCacheManager.cancelTask(for: cacheKey)
-        
+
         let urlQueryItems = getURLQueryItems()
         guard let request = makeAuthenticatedRequest(
             for: UnsplashImagesListURL.photos,
@@ -49,7 +49,7 @@ final class ImagesListService {
             handler(.failure(NetworkError.invalidRequest))
             return
         }
-        
+
         let updateState: ([Photo]) -> Void = { [weak self] photos in
             self?.photos.append(contentsOf: photos)
             self?.lastLoadedPage = (self?.lastLoadedPage ?? 0) + 1
@@ -58,11 +58,11 @@ final class ImagesListService {
                 object: self,
                 userInfo: ["photos": photos])
         }
-        
+
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .iso8601
-        
+
         let task = networkTaskManager.performDecodedRequest(
             request: request,
             updateState: updateState,
@@ -71,7 +71,7 @@ final class ImagesListService {
             cacheIdentifier: cacheIdentifier,
             handler: handler
         )
-        
+
         requestCacheManager.setActiveTask(task, for: cacheKey, with: cacheIdentifier)
         task.resume()
     }
@@ -82,16 +82,16 @@ final class ImagesListService {
                 self?.changeLike(photoId: photoId, isLikedByUser: isLikedByUser, handler)
             }
         }
-        
+
         guard var request = makeAuthenticatedRequest(
             for: UnsplashImagesListURL.changeLike(id: photoId)
         ) else {
             handler(.failure(NetworkError.invalidRequest))
             return
         }
-        
+
         request.httpMethod = isLikedByUser ? "DELETE" : "POST"
-        
+
         let updateState = {
             if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
                 var updatedPhoto = self.photos[index]
@@ -105,10 +105,10 @@ final class ImagesListService {
             updateState: updateState,
             handler: handler
         )
-        
+
         task.resume()
     }
-    
+
     func prepareForLogout() {
         photos = []
     }

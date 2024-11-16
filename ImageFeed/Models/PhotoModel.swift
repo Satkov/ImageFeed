@@ -12,7 +12,7 @@ struct Photo: Decodable {
     var size: CGSize {
         CGSize(width: width, height: height)
     }
-    
+
 }
 
 struct PhotoURLs: Decodable {

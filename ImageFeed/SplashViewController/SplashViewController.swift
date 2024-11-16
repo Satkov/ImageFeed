@@ -89,8 +89,8 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 self.switchToTabBarController()
                 self.profileImageService.fetchProfileImage { _ in }
-                self.imagesListService.fetchPhotosNextPage() { _ in }
-                
+                self.imagesListService.fetchPhotosNextPage { _ in }
+
             case .failure(let error):
                 logError(message: "Failed to prepare profile", error: error)
             }
