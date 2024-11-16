@@ -71,6 +71,8 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = UIColor(named: "YP Black")
         navigationController?.popViewController(animated: true)
         fetchProfile()
     }

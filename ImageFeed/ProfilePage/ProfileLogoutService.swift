@@ -15,6 +15,10 @@ final class ProfileLogoutService {
     }
     
     private func cleanCookies() {
+        profileService.prepareForLogout()
+        profileImageService.prepareForLogout()
+        imageListService.prepareForLogout()
+        
         // Очищаем все куки из хранилища
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         // Запрашиваем все данные из локального хранилища
@@ -25,9 +29,6 @@ final class ProfileLogoutService {
             }
         }
         removeToken()
-        profileService.prepareForLogout()
-        profileImageService.prepareForLogout()
-        imageListService.prepareForLogout()
     }
     
     func removeToken() {

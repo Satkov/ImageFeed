@@ -7,7 +7,7 @@ extension Date {
 private extension DateFormatter {
     static let defaultDate: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
+        formatter.dateStyle = .medium
         formatter.timeStyle = .none
         formatter.locale = .init(identifier: "ru_RU")
         return formatter

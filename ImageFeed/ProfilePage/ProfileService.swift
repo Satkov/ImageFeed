@@ -33,6 +33,7 @@ final class ProfileService {
         let cacheKey = "ProfileService"
         if requestCacheManager.isDuplicateRequest(for: cacheKey, identifier: "") {
             handler(.failure(NetworkError.invalidRequest))
+            logError(message: "Duplicated request in fetchProfile")
             return
         }
 

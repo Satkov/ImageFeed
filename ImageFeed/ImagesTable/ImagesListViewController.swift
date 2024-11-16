@@ -11,6 +11,7 @@ final class ImagesListViewController: UIViewController {
     private var cellHeightCache = [IndexPath: CGFloat]()
     private let imagesListService = ImagesListService.shared
     private var imagesListServiceObserver: NSObjectProtocol?
+    private var animationLayers = Set<CALayer>()
     
     private struct Constants {
         static let showSingleImageSegueIdentifier = "ShowSingleImage"
@@ -38,9 +39,10 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Setup
     private func setupTableView() {
+        view.backgroundColor = UIColor(named: "YP Black")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .ypBlack
+        tableView.backgroundColor = UIColor(named: "YP Black")
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
@@ -74,7 +76,7 @@ final class ImagesListViewController: UIViewController {
             switch result {
             case .success(let value):
                 viewController.image = value.image
-            case .failure(let error):
+            case .failure(_):
                 self?.showErrorAlert(
                     title: "Ошибка",
                     message: "Не удалось загрузить изображение. Повторить попытку?",
@@ -138,9 +140,13 @@ extension ImagesListViewController {
         guard let url = URL(string: photo.urls.thumb) else { return }
         
         configureDateBackground(for: cell)
+        setGradientForPlaceholder(for: cell, animationLayers: &animationLayers, cornerRadius: 16)
+        cell.selectionStyle = .none
         cell.cellImage.kf.indicatorType = .activity
-        cell.cellImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
-        cell.dateLabel.text = photo.createdAt.dateString
+        cell.cellImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder")) { _ in
+            stopGradientAnimation(for: cell, animationLayers: &self.animationLayers)
+        }
+        cell.dateLabel.text = photo.createdAt?.dateString ?? ""
         cell.likeButton.setImage(
             UIImage(named: LikeButtonState.state(for: photo).rawValue),
             for: .normal
@@ -185,7 +191,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     for: .normal
                 )
             case .failure(let error):
-                self.showErrorAlert(title: "Ошибка", message: "Не удалось изменить статус лайка.") { }
+                self.showErrorAlert(title: "Ошибка", message: "Что-то пошло не так. Попробовать ещё раз?") { }
                 logError(message: "Failed to change like status", error: error)
             }
         }
