@@ -8,7 +8,7 @@ struct Photo {
     let urls: PhotoURLs
     var isLikedByUser: Bool
     var size: CGSize
-    
+
     init(dto: PhotoResult) {
         id = dto.id
         createdAt = dto.createdAt
