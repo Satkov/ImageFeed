@@ -138,8 +138,8 @@ extension ImagesListViewController {
         let photo = photos[indexPath.row]
         guard let url = URL(string: photo.urls.thumb) else { return }
         cell.delegate = self
-        cell.config(url: url, photoDate: photo.createdAt)
-        cell.setIsLiked(state: LikeButtonState.state(for: photo))
+        cell.configure(with: url, photoDate: photo.createdAt)
+        cell.setIsLiked(LikeButtonState.state(for: photo))
     }
 }
 
@@ -169,7 +169,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             switch result {
             case .success:
                 self.photos[indexPath.row].isLikedByUser.toggle()
-                cell.setIsLiked(state: LikeButtonState.state(for: self.photos[indexPath.row]))
+                cell.setIsLiked(LikeButtonState.state(for: self.photos[indexPath.row]))
             case .failure(let error):
                 self.showErrorAlert(title: "Ошибка", message: "Что-то пошло не так. Попробовать ещё раз?") { }
                 logError(message: "Failed to change like status", error: error)

@@ -1,40 +1,71 @@
 import UIKit
 
 final class ImagesListCell: UITableViewCell {
+    // MARK: - Static Properties
     static let reuseIdentifier = "ImagesListCell"
+
+    // MARK: - Delegate
     weak var delegate: ImagesListCellDelegate?
 
-    @IBOutlet private var dateGradientBackgroundView: UIView!
-    @IBOutlet private var cellImage: UIImageView!
-    @IBOutlet private var likeButton: UIButton!
-    @IBOutlet private var dateLabel: UILabel!
+    // MARK: - Outlets
+    @IBOutlet private weak var dateGradientBackgroundView: UIView!
+    @IBOutlet private weak var cellImage: UIImageView!
+    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var dateLabel: UILabel!
+
+    // MARK: - Properties
     private var animationLayers = Set<CALayer>()
-    
-    func config(url: URL, photoDate: Date?) {
-        setGradientBackgroundColor(for: dateGradientBackgroundView)
-        setGradientForPlaceholder(for: self, animationLayers: &animationLayers, cornerRadius: 16)
-        self.selectionStyle = .none
-        self.cellImage.kf.indicatorType = .activity
-        self.cellImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder")) { _ in
-            stopGradientAnimation(for: self, animationLayers: &self.animationLayers)
-        }
-        self.dateLabel.text = photoDate?.dateString ?? ""
+
+    // MARK: - Configuration
+    func configure(with url: URL, photoDate: Date?) {
+        configureDateGradientBackground()
+        configureImagePlaceholder()
+        loadImage(from: url)
+        setDateLabel(photoDate)
     }
-    
-    func setIsLiked(state: LikeButtonState) {
-        self.likeButton.setImage(
+
+    func setIsLiked(_ state: LikeButtonState) {
+        likeButton.setImage(
             UIImage(named: state.rawValue),
             for: .normal
         )
     }
 
-    override func prepareForReuse() {
-            super.prepareForReuse()
-            cellImage.kf.cancelDownloadTask()
-        }
-
-    @IBAction func likeButtonPressed() {
+    // MARK: - Actions
+    @IBAction private func likeButtonPressed() {
         delegate?.imageListCellDidTapLike(self)
+    }
+
+    // MARK: - Helpers
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImage.kf.cancelDownloadTask()
+        stopGradientAnimation(for: self, animationLayers: &animationLayers)
+    }
+
+    private func configureDateGradientBackground() {
+        setGradientBackgroundColor(for: dateGradientBackgroundView)
+    }
+
+    private func configureImagePlaceholder() {
+        setGradientForPlaceholder(
+            for: self,
+            animationLayers: &animationLayers,
+            cornerRadius: 16
+        )
+        selectionStyle = .none
+    }
+
+    private func loadImage(from url: URL) {
+        cellImage.kf.indicatorType = .activity
+        cellImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder")) { [weak self] _ in
+            guard let self = self else { return }
+            stopGradientAnimation(for: self, animationLayers: &self.animationLayers)
+        }
+    }
+
+    private func setDateLabel(_ date: Date?) {
+        dateLabel.text = date?.dateString ?? ""
     }
 }
 
