@@ -19,6 +19,9 @@ final class TabBarController: UITabBarController {
             image: UIImage(named: "feed_button"),
             selectedImage: nil
         )
+        imagesNavController.navigationBar.isTranslucent = true
+        imagesNavController.navigationBar.backgroundColor = UIColor(named: "YP Black")
+        imagesNavController.navigationBar.barTintColor = UIColor(named: "YP Black")
 
         // Profile Tab
         let profilePageViewController = ProfilePageViewController()

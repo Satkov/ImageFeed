@@ -11,7 +11,6 @@ final class ImagesListViewController: UIViewController {
     private var cellHeightCache = [IndexPath: CGFloat]()
     private let imagesListService = ImagesListService.shared
     private var imagesListServiceObserver: NSObjectProtocol?
-    private var animationLayers = Set<CALayer>()
 
     private struct Constants {
         static let showSingleImageSegueIdentifier = "ShowSingleImage"
@@ -103,8 +102,8 @@ extension ImagesListViewController: UITableViewDelegate {
 
         let photo = photos[indexPath.row]
         let availableWidth = tableView.bounds.width - Constants.cellInsets.left - Constants.cellInsets.right
-        let scaleFactor = availableWidth / CGFloat(photo.width)
-        let calculatedHeight = CGFloat(photo.height) * scaleFactor + Constants.cellInsets.top + Constants.cellInsets.bottom
+        let scaleFactor = availableWidth / CGFloat(photo.size.width)
+        let calculatedHeight = CGFloat(photo.size.height) * scaleFactor + Constants.cellInsets.top + Constants.cellInsets.bottom
 
         cellHeightCache[indexPath] = calculatedHeight
         return calculatedHeight
@@ -138,25 +137,9 @@ extension ImagesListViewController {
     private func configure(_ cell: ImagesListCell, for indexPath: IndexPath) {
         let photo = photos[indexPath.row]
         guard let url = URL(string: photo.urls.thumb) else { return }
-
-        configureDateBackground(for: cell)
-        setGradientForPlaceholder(for: cell, animationLayers: &animationLayers, cornerRadius: 16)
-        cell.selectionStyle = .none
-        cell.cellImage.kf.indicatorType = .activity
-        cell.cellImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder")) { _ in
-            stopGradientAnimation(for: cell, animationLayers: &self.animationLayers)
-        }
-        cell.dateLabel.text = photo.createdAt?.dateString ?? ""
-        cell.likeButton.setImage(
-            UIImage(named: LikeButtonState.state(for: photo).rawValue),
-            for: .normal
-        )
         cell.delegate = self
-    }
-
-    private func configureDateBackground(for cell: ImagesListCell) {
-        guard let dateBackgroundView = cell.dateGradientBackgroundView else { return }
-        setGradientBackgroundColor(for: dateBackgroundView)
+        cell.config(url: url, photoDate: photo.createdAt)
+        cell.setIsLiked(state: LikeButtonState.state(for: photo))
     }
 }
 
@@ -179,17 +162,14 @@ extension ImagesListViewController: ImagesListCellDelegate {
         let photo = photos[indexPath.row]
 
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLikedByUser: photo.likedByUser) { [weak self] result in
+        imagesListService.changeLike(photoId: photo.id, isLikedByUser: photo.isLikedByUser) { [weak self] result in
             guard let self = self else { return }
             UIBlockingProgressHUD.dismiss()
 
             switch result {
             case .success:
-                self.photos[indexPath.row].likedByUser.toggle()
-                cell.likeButton.setImage(
-                    UIImage(named: LikeButtonState.state(for: self.photos[indexPath.row]).rawValue),
-                    for: .normal
-                )
+                self.photos[indexPath.row].isLikedByUser.toggle()
+                cell.setIsLiked(state: LikeButtonState.state(for: self.photos[indexPath.row]))
             case .failure(let error):
                 self.showErrorAlert(title: "Ошибка", message: "Что-то пошло не так. Попробовать ещё раз?") { }
                 logError(message: "Failed to change like status", error: error)
@@ -198,12 +178,3 @@ extension ImagesListViewController: ImagesListCellDelegate {
     }
 }
 
-// MARK: - Like Button State Enum
-enum LikeButtonState: String {
-    case off = "like_button_off"
-    case on = "like_button_on"
-
-    static func state(for photo: Photo) -> LikeButtonState {
-        return photo.likedByUser ? .on : .off
-    }
-}

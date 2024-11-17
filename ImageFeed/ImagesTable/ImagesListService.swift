@@ -24,7 +24,7 @@ final class ImagesListService {
         ]
     }
 
-    func fetchPhotosNextPage(handler: @escaping (Result<[Photo], Error>) -> Void) {
+    func fetchPhotosNextPage(handler: @escaping (Result<[PhotoResult], Error>) -> Void) {
         if !Thread.isMainThread {
             DispatchQueue.main.async { [weak self] in
                 self?.fetchPhotosNextPage(handler: handler)
@@ -50,7 +50,11 @@ final class ImagesListService {
             return
         }
 
-        let updateState: ([Photo]) -> Void = { [weak self] photos in
+        let updateState: ([PhotoResult]) -> Void = { [weak self] photosDTO in
+            var photos: [Photo] = []
+            for elem in photosDTO {
+                photos.append(Photo(dto: elem))
+            }
             self?.photos.append(contentsOf: photos)
             self?.lastLoadedPage = (self?.lastLoadedPage ?? 0) + 1
             NotificationCenter.default.post(
@@ -95,7 +99,7 @@ final class ImagesListService {
         let updateState = {
             if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
                 var updatedPhoto = self.photos[index]
-                updatedPhoto.likedByUser.toggle()
+                updatedPhoto.isLikedByUser.toggle()
                 self.photos[index] = updatedPhoto
             }
         }
