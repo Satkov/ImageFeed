@@ -13,7 +13,7 @@
         <!--Auth View Controller-->
         <scene sceneID="D7V-uI-QnH">
             <objects>
-                <viewController restorationIdentifier="AuthViewController" storyboardIdentifier="AuthViewController" id="iH4-O9-z5Q" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="AuthViewController" storyboardIdentifier="AuthViewController" modalTransitionStyle="crossDissolve" modalPresentationStyle="fullScreen" id="iH4-O9-z5Q" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="B70-18-bNr">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -147,8 +147,8 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQN-0q-M5L">
-                                                    <rect key="frame" x="333" y="4" width="44" height="44"/>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQN-0q-M5L">
+                                                    <rect key="frame" x="333" y="4" width="44" height="48"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="BJQ-K7-Fqk"/>
                                                         <constraint firstAttribute="width" constant="44" id="Kb3-Ps-PdF"/>
@@ -156,6 +156,9 @@
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="like_button_on"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="like_button_on"/>
+                                                    <connections>
+                                                        <action selector="likeButtonPressed" destination="fI8-cb-3Pb" eventType="touchUpInside" id="8jP-bS-iHU"/>
+                                                    </connections>
                                                 </button>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w83-BJ-6F9" userLabel="gradientBackgroundView">
                                                     <rect key="frame" x="24" y="170" width="125" height="22"/>
@@ -241,7 +244,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8PH-Kw-FD4">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="fz3-wX-qkd">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fz3-wX-qkd">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -358,11 +361,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0" width="1600" height="1059"/>
-        <image name="backward_button" width="24" height="24"/>
+        <image name="backward_button" width="9" height="15.666666984558105"/>
         <image name="feed_button" width="30" height="30"/>
         <image name="like_button_on" width="42" height="42"/>
-        <image name="sharing_button" width="31" height="30"/>
+        <image name="sharing_button" width="30.333333969116211" height="30"/>
         <image name="unsplash_logo" width="60" height="60"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

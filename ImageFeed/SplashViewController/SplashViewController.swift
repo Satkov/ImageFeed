@@ -8,6 +8,7 @@ final class SplashViewController: UIViewController {
     private let showAuthViewControllerIdentifier = "showAuthView"
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let imagesListService = ImagesListService.shared
 
     // MARK: - Lifecycle
 
@@ -70,6 +71,8 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = UIColor(named: "YP Black")
         navigationController?.popViewController(animated: true)
         fetchProfile()
     }
@@ -86,8 +89,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 self.switchToTabBarController()
                 self.profileImageService.fetchProfileImage { _ in }
+                self.imagesListService.fetchPhotosNextPage { _ in }
+
             case .failure(let error):
-                logMessageOrError(message: "Failed to prepare profile", error: error)
+                logError(message: "Failed to prepare profile", error: error)
             }
         }
     }

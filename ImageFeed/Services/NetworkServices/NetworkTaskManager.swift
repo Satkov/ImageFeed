@@ -9,16 +9,34 @@ final class NetworkTaskManager {
 
     // MARK: - Task Creation
 
+    func performRequest(
+        request: URLRequest,
+        updateState: (() -> Void)? = nil,
+        handler: @escaping (Result<Void, Error>) -> Void
+    ) -> URLSessionTask {
+
+        return networkClient.fetch(request: request) { result in
+            switch result {
+            case .success:
+                updateState?()
+                handler(.success(()))
+            case .failure(let error):
+                self.logAndHandleError(error, handler: handler)
+            }
+        }
+    }
+
     func performDecodedRequest<T: Decodable>(
         request: URLRequest,
         updateState: ((T) -> Void)? = nil,
         cacheKey: String? = nil,
+        decoder: JSONDecoder = JSONDecoder(),
         cacheIdentifier: String? = nil,
         handler: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask {
 
         return networkClient.fetch(request: request) { result in
-            self.handleFetchResult(result, updateState: updateState, handler: handler)
+            self.handleFetchResult(result, updateState: updateState, decoder: decoder, handler: handler)
 
             // Обновление кэша после завершения задачи
             if let key = cacheKey, let identifier = cacheIdentifier {
@@ -32,11 +50,12 @@ final class NetworkTaskManager {
     private func handleFetchResult<T: Decodable>(
         _ result: Result<Data, Error>,
         updateState: ((T) -> Void)?,
+        decoder: JSONDecoder,
         handler: @escaping (Result<T, Error>) -> Void
     ) {
         switch result {
         case .success(let data):
-            decodeData(data, updateState: updateState, handler: handler)
+            decodeData(data, updateState: updateState, decoder: decoder, handler: handler)
         case .failure(let error):
             logAndHandleError(error, handler: handler)
         }
@@ -45,17 +64,15 @@ final class NetworkTaskManager {
     private func decodeData<T: Decodable>(
         _ data: Data,
         updateState: ((T) -> Void)?,
+        decoder: JSONDecoder,
         handler: @escaping (Result<T, Error>) -> Void
     ) {
         do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
             let decodedData = try decoder.decode(T.self, from: data)
             updateState?(decodedData)
             handler(.success(decodedData))
         } catch {
-            logError(message: "Decoding error", error: error)
-            handler(.failure(error))
+            logAndHandleError(error, handler: handler)
         }
     }
 

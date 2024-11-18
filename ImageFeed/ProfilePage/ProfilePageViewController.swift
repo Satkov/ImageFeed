@@ -9,9 +9,12 @@ final class ProfilePageViewController: UIViewController {
     private let nameLabel = UILabel()
     private let tagLabel = UILabel()
     private let bioLabel = UILabel()
+    private var animationLayers = Set<CALayer>()
+    private var profileDataIsLoaded: Bool = false
 
     // MARK: - Services
     private let profileService = ProfileService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
 
     // MARK: - Lifecycle
@@ -26,6 +29,11 @@ final class ProfilePageViewController: UIViewController {
         loadProfileData()
         addObserverForProfileImage()
         updateAvatarImage()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        activateGradientPlaceholder()
     }
 
     // MARK: - Configuration
@@ -54,7 +62,10 @@ final class ProfilePageViewController: UIViewController {
             with: url,
             placeholder: UIImage(named: "placeholder"),
             options: [.processor(processor)]
-        )
+        ) { _ in
+            self.profileDataIsLoaded = true
+            stopGradientAnimation(for: self.profileImageView, animationLayers: &self.animationLayers)
+        }
     }
 
     // MARK: - Profile Data
@@ -65,6 +76,15 @@ final class ProfilePageViewController: UIViewController {
     }
 
     // MARK: - UI Setup Methods
+    private func activateGradientPlaceholder() {
+        if !profileDataIsLoaded {
+            setGradientForPlaceholder(for: profileImageView, animationLayers: &animationLayers)
+            setGradientForPlaceholder(for: nameLabel, animationLayers: &animationLayers)
+            setGradientForPlaceholder(for: bioLabel, animationLayers: &animationLayers)
+            setGradientForPlaceholder(for: tagLabel, animationLayers: &animationLayers)
+        }
+    }
+
     private func setupProfileImageView() {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.layer.cornerRadius = 35
@@ -83,6 +103,8 @@ final class ProfilePageViewController: UIViewController {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.setImage(UIImage(named: "exit_button"), for: .normal)
         view.addSubview(exitButton)
+
+        exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: 44),
@@ -126,5 +148,24 @@ final class ProfilePageViewController: UIViewController {
             bioLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
             bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)
         ])
+    }
+
+    @objc private func exitButtonTapped() {
+        let confirmAction = {
+            self.profileLogoutService.logout()
+            let newViewController = SplashViewController()
+            let window = UIApplication.shared.windows.first
+            window?.rootViewController = newViewController
+            window?.makeKeyAndVisible()
+        }
+        AlertService.shared.showAlert(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            confirmButtonTitle: "Да",
+            cancelButtonTitle: "Нет",
+            on: self,
+            confirmAction: confirmAction
+        )
+
     }
 }
