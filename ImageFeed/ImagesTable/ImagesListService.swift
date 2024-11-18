@@ -53,7 +53,7 @@ final class ImagesListService {
         let updateState: ([PhotoResult]) -> Void = { [weak self] photosDTO in
             var photos: [Photo] = []
             for elem in photosDTO {
-                photos.append(Photo(dto: elem))
+                photos.append(elem.createPhotoModel())
             }
             self?.photos.append(contentsOf: photos)
             self?.lastLoadedPage = (self?.lastLoadedPage ?? 0) + 1

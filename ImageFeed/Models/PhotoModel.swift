@@ -8,15 +8,6 @@ struct Photo {
     let urls: PhotoURLs
     var isLikedByUser: Bool
     var size: CGSize
-
-    init(dto: PhotoResult) {
-        id = dto.id
-        createdAt = dto.createdAt
-        description = dto.description
-        urls = dto.urls
-        isLikedByUser = dto.likedByUser
-        size = CGSize(width: dto.width, height: dto.height)
-    }
 }
 
 struct PhotoResult: Decodable {
@@ -27,10 +18,15 @@ struct PhotoResult: Decodable {
     let description: String?
     let urls: PhotoURLs
     var likedByUser: Bool
-    var size: CGSize {
-        CGSize(width: width, height: height)
+    
+    func createPhotoModel() -> Photo {
+        Photo(id: self.id,
+              createdAt: self.createdAt,
+              description: self.description,
+              urls: self.urls,
+              isLikedByUser: self.likedByUser,
+              size: CGSize(width: self.width, height: self.height))
     }
-
 }
 
 struct PhotoURLs: Decodable {
