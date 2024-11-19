@@ -2,11 +2,15 @@ import UIKit
 
 // MARK: - NetworkTaskManager
 
-final class NetworkTaskManager {
+final class NetworkTaskManager: NetworkTaskManagerProtocol {
 
-    private let networkClient = NetworkClient()
-    private let requestCacheManager = RequestCacheManager.shared
+    private let networkClient: NetworkRoutingProtocol
+    private let requestCacheManager: RequestCacheManagerProtocol!
 
+    init() {
+        requestCacheManager = RequestCacheManager.shared
+        networkClient = NetworkClient()
+    }
     // MARK: - Task Creation
 
     func performRequest(

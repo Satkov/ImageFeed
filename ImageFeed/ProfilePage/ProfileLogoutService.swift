@@ -2,16 +2,23 @@ import Foundation
 import SwiftKeychainWrapper
 import WebKit
 
-final class ProfileLogoutService {
+final class ProfileLogoutService: ProfileLogoutServiceProtocol {
     static let shared = ProfileLogoutService()
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let imageListService = ImagesListService.shared
+    
+    private let profileService: ProfileServiceProtocol!
+    private let profileImageService: ProfileImageServiceProtocol!
+    private let imageListService: ImagesListServiceProtocol!
 
-    private init() { }
+    private init() { 
+        profileService = ProfileService.shared
+        profileImageService = ProfileImageService.shared
+        imageListService = ImagesListService.shared
+        
+    }
 
     func logout() {
         cleanCookies()
+        removeToken()
     }
 
     private func cleanCookies() {
@@ -28,10 +35,9 @@ final class ProfileLogoutService {
                 WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
             }
         }
-        removeToken()
     }
 
-    func removeToken() {
+    private func removeToken() {
         let tokenKey = KeychainWrapper.keychainKeys.userToken
         let isRemoved = KeychainWrapper.standard.removeObject(forKey: tokenKey)
 

@@ -4,8 +4,13 @@ import Kingfisher
 
 final class ProfilePagePresenter: ProfilePagePresenterProtocol {
     var view: ProfilePageViewControllerProtocol?
-    private let profileService = ProfileService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
+    private let profileService: ProfileServiceProtocol!
+    private let profileLogoutService: ProfileLogoutServiceProtocol!
+    
+    init() {
+        profileService = ProfileService.shared
+        profileLogoutService = ProfileLogoutService.shared
+    }
     
     func viewDidLoad() {
         loadProfileData()

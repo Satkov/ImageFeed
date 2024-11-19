@@ -5,7 +5,7 @@ struct TaskInfo {
     let identifier: String
 }
 
-final class RequestCacheManager {
+final class RequestCacheManager: RequestCacheManagerProtocol {
 
     static let shared = RequestCacheManager()
 

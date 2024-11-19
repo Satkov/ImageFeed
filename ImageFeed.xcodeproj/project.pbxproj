@@ -61,6 +61,11 @@
 		91A2BA952CECBC480032B275 /* ImageListServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA942CECBC480032B275 /* ImageListServiceProtocol.swift */; };
 		91A2BA972CECC4AF0032B275 /* ImagesListCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA962CECC4AF0032B275 /* ImagesListCellProtocol.swift */; };
 		91A2BA9A2CECD5D00032B275 /* SingleImageViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA992CECD5D00032B275 /* SingleImageViewControllerProtocol.swift */; };
+		91A2BA9C2CED01BD0032B275 /* ProfileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA9B2CED01BD0032B275 /* ProfileServiceProtocol.swift */; };
+		91A2BA9E2CED032B0032B275 /* ProfileLogoutServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA9D2CED032B0032B275 /* ProfileLogoutServiceProtocol.swift */; };
+		91A2BAA02CED05E00032B275 /* ProfileImageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA9F2CED05E00032B275 /* ProfileImageServiceProtocol.swift */; };
+		91A2BAA32CED079D0032B275 /* RequestCacheManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BAA22CED079D0032B275 /* RequestCacheManagerProtocol.swift */; };
+		91A2BAA52CED08280032B275 /* NetworkTaskManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BAA42CED08280032B275 /* NetworkTaskManagerProtocol.swift */; };
 		91B4254A2CD6785A000B3B3D /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B425492CD6785A000B3B3D /* OAuth2Service.swift */; };
 		91B4254C2CD67E51000B3B3D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B4254B2CD67E51000B3B3D /* NetworkClient.swift */; };
 		91B4254F2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */; };
@@ -135,6 +140,11 @@
 		91A2BA942CECBC480032B275 /* ImageListServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListServiceProtocol.swift; sourceTree = "<group>"; };
 		91A2BA962CECC4AF0032B275 /* ImagesListCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCellProtocol.swift; sourceTree = "<group>"; };
 		91A2BA992CECD5D00032B275 /* SingleImageViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewControllerProtocol.swift; sourceTree = "<group>"; };
+		91A2BA9B2CED01BD0032B275 /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
+		91A2BA9D2CED032B0032B275 /* ProfileLogoutServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutServiceProtocol.swift; sourceTree = "<group>"; };
+		91A2BA9F2CED05E00032B275 /* ProfileImageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageServiceProtocol.swift; sourceTree = "<group>"; };
+		91A2BAA22CED079D0032B275 /* RequestCacheManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCacheManagerProtocol.swift; sourceTree = "<group>"; };
+		91A2BAA42CED08280032B275 /* NetworkTaskManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTaskManagerProtocol.swift; sourceTree = "<group>"; };
 		91B425492CD6785A000B3B3D /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		91B4254B2CD67E51000B3B3D /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoutingProtocol.swift; sourceTree = "<group>"; };
@@ -200,11 +210,9 @@
 				91852A6C2CC53545007D9F4C /* SingleImageViewController */,
 				911F2B242CBD64BF00855FCE /* ImagesTable */,
 				9147FF462CC031F700D7B371 /* ProfilePage */,
-				91B4254D2CD67E67000B3B3D /* Protocols */,
 				917894F02CC0069F00DD7426 /* Services */,
 				91BE388E2CD77CD50048D194 /* Errors */,
 				91BE388A2CD7760C0048D194 /* Models */,
-				914288BF2CD278F500109ECC /* Protocols */,
 				91985C372CD1445500EB84DA /* AuthConfiguration */,
 				9147FF492CC0324F00D7B371 /* Storyboards */,
 				9169A4CE2CDD1E2800E05A9B /* Core */,
@@ -225,16 +233,6 @@
 				917525EE2CE0C8D0005AE394 /* ImagesListService.swift */,
 			);
 			path = ImagesTable;
-			sourceTree = "<group>";
-		};
-		914288BF2CD278F500109ECC /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				914288C02CD2790500109ECC /* WebViewViewControllerDelegate.swift */,
-				91BE38982CD797FF0048D194 /* AuthViewContollerDelegate.swift */,
-				911DF8752CE675A90005B70A /* ImagesListCellDelegate.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		9147FF462CC031F700D7B371 /* ProfilePage */ = {
@@ -275,6 +273,7 @@
 		9169A4CD2CDD1DF100E05A9B /* NetworkServices */ = {
 			isa = PBXGroup;
 			children = (
+				91A2BAA12CED078E0032B275 /* Protocols */,
 				91B4254B2CD67E51000B3B3D /* NetworkClient.swift */,
 				9169A4CF2CDD1F0D00E05A9B /* NetworkTaskManager.swift */,
 				9169A4D12CDD266E00E05A9B /* RequestCacheManager.swift */,
@@ -337,6 +336,8 @@
 		91A2BA652CEC706F0032B275 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				914288C02CD2790500109ECC /* WebViewViewControllerDelegate.swift */,
+				91BE38982CD797FF0048D194 /* AuthViewContollerDelegate.swift */,
 				91A2BA662CEC71F90032B275 /* WebViewViewControllerProtocol.swift */,
 				91A2BA682CEC72300032B275 /* WebViewPresenterProtocol.swift */,
 				91A2BA6E2CEC7E1A0032B275 /* AuthHelperProtocol.swift */,
@@ -367,6 +368,9 @@
 			children = (
 				91A2BA832CEC93D30032B275 /* ProfilePageViewControllerProtocol.swift */,
 				91A2BA852CEC93FD0032B275 /* ProfilePagePresenterProtocol.swift */,
+				91A2BA9B2CED01BD0032B275 /* ProfileServiceProtocol.swift */,
+				91A2BA9D2CED032B0032B275 /* ProfileLogoutServiceProtocol.swift */,
+				91A2BA9F2CED05E00032B275 /* ProfileImageServiceProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -374,6 +378,7 @@
 		91A2BA8D2CECB1FA0032B275 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				911DF8752CE675A90005B70A /* ImagesListCellDelegate.swift */,
 				91A2BA8E2CECB21B0032B275 /* ImagesListViewControllerProtocol.swift */,
 				91A2BA902CECB22A0032B275 /* ImageListPresenterProtocol.swift */,
 				91A2BA942CECBC480032B275 /* ImageListServiceProtocol.swift */,
@@ -390,13 +395,14 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		91B4254D2CD67E67000B3B3D /* Protocols */ = {
+		91A2BAA12CED078E0032B275 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */,
+				91A2BAA22CED079D0032B275 /* RequestCacheManagerProtocol.swift */,
+				91A2BAA42CED08280032B275 /* NetworkTaskManagerProtocol.swift */,
 			);
-			name = Protocols;
-			path = Services/Protocols;
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		91BE388A2CD7760C0048D194 /* Models */ = {
@@ -541,6 +547,7 @@
 				915782D92CBE595F00AD066C /* Date+Extensions.swift in Sources */,
 				917525F12CE0C920005AE394 /* PhotoModel.swift in Sources */,
 				917894F22CC006AA00DD7426 /* Gradients.swift in Sources */,
+				91A2BA9E2CED032B0032B275 /* ProfileLogoutServiceProtocol.swift in Sources */,
 				91B4254A2CD6785A000B3B3D /* OAuth2Service.swift in Sources */,
 				91A2BA9A2CECD5D00032B275 /* SingleImageViewControllerProtocol.swift in Sources */,
 				91985C3D2CD151DE00EB84DA /* AuthViewController.swift in Sources */,
@@ -566,12 +573,16 @@
 				916C0BD12CEA45D6000E626B /* Array+Extensions.swift in Sources */,
 				91A2BA6F2CEC7E1A0032B275 /* AuthHelperProtocol.swift in Sources */,
 				91A2BA692CEC72300032B275 /* WebViewPresenterProtocol.swift in Sources */,
+				91A2BAA52CED08280032B275 /* NetworkTaskManagerProtocol.swift in Sources */,
 				91B4254F2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift in Sources */,
+				91A2BAA02CED05E00032B275 /* ProfileImageServiceProtocol.swift in Sources */,
 				9169A4CC2CDD1B9C00E05A9B /* ProfileImageSerice.swift in Sources */,
+				91A2BAA32CED079D0032B275 /* RequestCacheManagerProtocol.swift in Sources */,
 				917525ED2CDF84B6005AE394 /* ErrorLogger.swift in Sources */,
 				91BE38972CD7901E0048D194 /* SplashViewController.swift in Sources */,
 				914288C12CD2790500109ECC /* WebViewViewControllerDelegate.swift in Sources */,
 				91B4254C2CD67E51000B3B3D /* NetworkClient.swift in Sources */,
+				91A2BA9C2CED01BD0032B275 /* ProfileServiceProtocol.swift in Sources */,
 				910661D22CDE6E9100BE4323 /* TabBarController.swift in Sources */,
 				91A2BA972CECC4AF0032B275 /* ImagesListCellProtocol.swift in Sources */,
 				91A2BA672CEC71F90032B275 /* WebViewViewControllerProtocol.swift in Sources */,
