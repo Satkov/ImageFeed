@@ -26,6 +26,7 @@ final class ProfilePageViewController: UIViewController {
         setupNameLabel()
         setupTagLabel()
         setupBioLabel()
+        
         loadProfileData()
         addObserverForProfileImage()
         updateAvatarImage()
@@ -158,7 +159,7 @@ final class ProfilePageViewController: UIViewController {
             window?.rootViewController = newViewController
             window?.makeKeyAndVisible()
         }
-        AlertService.shared.showAlert(
+        AlertService().showAlert(
             title: "Пока, пока!",
             message: "Уверены, что хотите выйти?",
             confirmButtonTitle: "Да",

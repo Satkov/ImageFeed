@@ -48,6 +48,8 @@
 		91A2BA6D2CEC7E120032B275 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA6C2CEC7E120032B275 /* AuthHelper.swift */; };
 		91A2BA6F2CEC7E1A0032B275 /* AuthHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA6E2CEC7E1A0032B275 /* AuthHelperProtocol.swift */; };
 		91A2BA772CEC7FA00032B275 /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA762CEC7FA00032B275 /* WebViewTests.swift */; };
+		91A2BA7F2CEC80E80032B275 /* WebViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA7E2CEC80E80032B275 /* WebViewPresenterSpy.swift */; };
+		91A2BA812CEC81C20032B275 /* WebViewViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A2BA802CEC81C20032B275 /* WebViewViewControllerSpy.swift */; };
 		91B4254A2CD6785A000B3B3D /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B425492CD6785A000B3B3D /* OAuth2Service.swift */; };
 		91B4254C2CD67E51000B3B3D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B4254B2CD67E51000B3B3D /* NetworkClient.swift */; };
 		91B4254F2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */; };
@@ -109,6 +111,8 @@
 		91A2BA6E2CEC7E1A0032B275 /* AuthHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelperProtocol.swift; sourceTree = "<group>"; };
 		91A2BA742CEC7FA00032B275 /* ImageFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91A2BA762CEC7FA00032B275 /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
+		91A2BA7E2CEC80E80032B275 /* WebViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenterSpy.swift; sourceTree = "<group>"; };
+		91A2BA802CEC81C20032B275 /* WebViewViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerSpy.swift; sourceTree = "<group>"; };
 		91B425492CD6785A000B3B3D /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		91B4254B2CD67E51000B3B3D /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		91B4254E2CD67E7A000B3B3D /* NetworkRoutingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoutingProtocol.swift; sourceTree = "<group>"; };
@@ -314,9 +318,19 @@
 		91A2BA752CEC7FA00032B275 /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
-				91A2BA762CEC7FA00032B275 /* WebViewTests.swift */,
+				91A2BA7D2CEC80D60032B275 /* WebViewTests */,
 			);
 			path = ImageFeedTests;
+			sourceTree = "<group>";
+		};
+		91A2BA7D2CEC80D60032B275 /* WebViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				91A2BA762CEC7FA00032B275 /* WebViewTests.swift */,
+				91A2BA7E2CEC80E80032B275 /* WebViewPresenterSpy.swift */,
+				91A2BA802CEC81C20032B275 /* WebViewViewControllerSpy.swift */,
+			);
+			path = WebViewTests;
 			sourceTree = "<group>";
 		};
 		91B4254D2CD67E67000B3B3D /* Protocols */ = {
@@ -514,6 +528,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				91A2BA772CEC7FA00032B275 /* WebViewTests.swift in Sources */,
+				91A2BA812CEC81C20032B275 /* WebViewViewControllerSpy.swift in Sources */,
+				91A2BA7F2CEC80E80032B275 /* WebViewPresenterSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
