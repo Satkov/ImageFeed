@@ -2,25 +2,34 @@ import Foundation
 import WebKit
 
 final class WebViewPresenter: WebViewPresenterProtocol {
+    
+    // MARK: - Properties
     weak var view: WebViewViewControllerProtocol?
     var authHelper: AuthHelperProtocol
     
+    // MARK: - Initializer
     init(authHelper: AuthHelperProtocol) {
-            self.authHelper = authHelper
-        }
+        self.authHelper = authHelper
+    }
     
+    // MARK: - Lifecycle
     func viewDidLoad() {
-        guard let request = authHelper.authRequest() else { return }
-        
-        view?.load(request: request)
+        loadAuthorizationRequest()
         didUpdateProgressValue(0)
     }
     
+    // MARK: - Private Methods
+    private func loadAuthorizationRequest() {
+        guard let request = authHelper.authRequest() else { return }
+        view?.load(request: request)
+    }
+    
+    // MARK: - Public Methods
     func didUpdateProgressValue(_ newValue: Double) {
-        let newProgressValue = Float(newValue)
-        view?.setProgressValue(newProgressValue)
+        let progress = Float(newValue)
+        view?.setProgressValue(progress)
         
-        let shouldHideProgress = shouldHideProgress(for: newProgressValue)
+        let shouldHideProgress = shouldHideProgress(for: progress)
         view?.setProgressHidden(shouldHideProgress)
     }
     

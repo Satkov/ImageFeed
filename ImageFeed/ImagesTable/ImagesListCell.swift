@@ -1,8 +1,10 @@
 import UIKit
 
-final class ImagesListCell: UITableViewCell {
+final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     // MARK: - Static Properties
-    static let reuseIdentifier = "ImagesListCell"
+    static var reuseIdentifier: String {
+            return "ImagesListCell"
+        }
 
     // MARK: - Delegate
     weak var delegate: ImagesListCellDelegate?
