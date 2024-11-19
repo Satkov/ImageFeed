@@ -27,6 +27,9 @@ final class AuthViewController: UIViewController {
                 logError(message: "Failed to prepare for \(showWebViewSegueIdentifier)")
                 return
             }
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewViewController.presenter = webViewPresenter
             webViewViewController.modalPresentationStyle = .fullScreen
             webViewViewController.delegate = self
         } else {
