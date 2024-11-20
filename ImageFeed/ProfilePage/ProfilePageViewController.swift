@@ -61,8 +61,7 @@ final class ProfilePageViewController: UIViewController, ProfilePageViewControll
             options: [.processor(processor)]
         ) { [weak self] _ in
             self?.profileDataIsLoaded = true
-            guard let profileImageView = self?.profileImageView else { return }
-            stopGradientAnimation(for: profileImageView, animationLayers: &self!.animationLayers)
+            stopGradientAnimation(animationLayers: &self!.animationLayers)
         }
     }
 

@@ -16,19 +16,19 @@ class Image_FeedUITests: XCTestCase {
 
         XCTAssertTrue(webView.waitForExistence(timeout: 5))
 
-        let loginTextField = webView.descendants(matching: .textField).element
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
-
-        loginTextField.tap()
-        loginTextField.typeText("***MAIL***")
-        webView.swipeDown()
 
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
 
         passwordTextField.tap()
-        passwordTextField.typeText("***PASSWORD***")
-        webView.swipeUp()
+        passwordTextField.clearAndEnterText("password")
+        
+        let loginTextField = webView.descendants(matching: .textField).element
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
+        
+        loginTextField.tap()
+        loginTextField.clearAndEnterText("mail")
+
 
         webView.buttons["Login"].tap()
 
@@ -74,8 +74,8 @@ class Image_FeedUITests: XCTestCase {
         app.tabBars.buttons.element(boundBy: 1).tap()
 
         // после имени должен быть пробел, даже если нет фамилии
-        XCTAssertTrue(app.staticTexts["***NAME*** "].exists)
-        XCTAssertTrue(app.staticTexts["@***TAG***"].exists)
+        XCTAssertTrue(app.staticTexts["Georgii "].exists)
+        XCTAssertTrue(app.staticTexts["@satkov"].exists)
 
         app.buttons["logout button"].tap()
 
@@ -83,5 +83,14 @@ class Image_FeedUITests: XCTestCase {
         XCTAssertTrue(alert.exists, "Алерт не появился")
 
         app.alerts["Double Button Alert"].buttons["Да"].tap()
+    }
+}
+
+extension XCUIElement {
+    func clearAndEnterText(_ text: String) {
+        self.tap()
+        self.press(forDuration: 1.0)
+        self.typeText(XCUIKeyboardKey.delete.rawValue)
+        self.typeText(text)
     }
 }

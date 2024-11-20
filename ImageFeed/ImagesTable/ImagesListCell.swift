@@ -43,7 +43,7 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     override func prepareForReuse() {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
-        stopGradientAnimation(for: self, animationLayers: &animationLayers)
+        stopGradientAnimation(animationLayers: &animationLayers)
     }
 
     private func configureDateGradientBackground() {
@@ -63,7 +63,7 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
         cellImage.kf.indicatorType = .activity
         cellImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder")) { [weak self] _ in
             guard let self = self else { return }
-            stopGradientAnimation(for: self, animationLayers: &self.animationLayers)
+            stopGradientAnimation(animationLayers: &self.animationLayers)
         }
     }
 
