@@ -24,7 +24,7 @@ final class SplashViewController: UIViewController {
     }
 
     // MARK: - Setup UI
-    
+
     private func setupServices() {
         profileService = ProfileService.shared
         profileImageService = ProfileImageService.shared

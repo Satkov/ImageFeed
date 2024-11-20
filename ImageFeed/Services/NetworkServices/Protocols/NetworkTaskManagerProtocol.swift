@@ -6,7 +6,7 @@ protocol NetworkTaskManagerProtocol: AnyObject {
         updateState: (() -> Void)?,
         handler: @escaping (Result<Void, Error>) -> Void
     ) -> URLSessionTask
-    
+
     func performDecodedRequest<T: Decodable>(
         request: URLRequest,
         updateState: ((T) -> Void)?,

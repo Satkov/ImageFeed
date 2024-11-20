@@ -2,90 +2,90 @@
 import XCTest
 
 final class WebViewTests: XCTestCase {
-    
+
     func testViewControllerCallsViewDidLoad() {
-        //given
+        // given
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as! WebViewViewController
         let presenter = WebViewPresenterSpy()
         viewController.presenter = presenter
         presenter.view = viewController
-        
-        //when
+
+        // when
         _ = viewController.view
-        
-        //then
+
+        // then
         XCTAssertTrue(presenter.viewDidLoadCalled)
     }
-    
+
     func testViewPresenterCallsLoad() {
-        //given
+        // given
         let authHelper = AuthHelper()
         let presenter = WebViewPresenter(authHelper: authHelper)
         let viewController = WebViewViewControllerSpy()
         presenter.view = viewController
-        
-        //when
+
+        // when
         presenter.viewDidLoad()
-        
-        //then
+
+        // then
         XCTAssertTrue(viewController.didLoadCalled)
     }
-    
+
     func testProgressVisibleWhenLessThenOne() {
-        //given
+        // given
         let authHelper = AuthHelper()
         let presenter = WebViewPresenter(authHelper: authHelper)
         let progress: Float = 0.6
-        
-        //when
+
+        // when
         let shouldHideProgress = presenter.shouldHideProgress(for: progress)
-        
-        //then
+
+        // then
         XCTAssertFalse(shouldHideProgress)
     }
-    
+
     func testProgressVisibleWhenEqualOne() {
-        //given
+        // given
         let authHelper = AuthHelper()
         let presenter = WebViewPresenter(authHelper: authHelper)
         let progress: Float = 1.0
-        
-        //when
+
+        // when
         let shouldHideProgress = presenter.shouldHideProgress(for: progress)
-        
-        //then
+
+        // then
         XCTAssertTrue(shouldHideProgress)
     }
-    
+
     func testAuthHelperAuthURL() {
-        //given
+        // given
         let configuration = AuthConfiguration.standard
         let authHelper = AuthHelper(configuration: configuration)
-        
-        //when
+
+        // when
         guard let url = authHelper.authURL() else { return }
         let urlString = url.absoluteString
-        
-        //then
+
+        // then
         XCTAssertTrue(urlString.contains(configuration.authURLString))
         XCTAssertTrue(urlString.contains(configuration.accessKey))
         XCTAssertTrue(urlString.contains(configuration.redirectURI))
         XCTAssertTrue(urlString.contains("code"))
         XCTAssertTrue(urlString.contains(configuration.accessScope))
     }
-    
+
     func testCodeFromURL() {
-        //given
+        // given
         var urlComponents = URLComponents(string: "https://unsplash.com/oauth/authorize/native")
         urlComponents?.queryItems = [URLQueryItem(name: "code", value: "test_code")]
         let configuration = AuthConfiguration.standard
         let authHelper = AuthHelper(configuration: configuration)
         guard let url = urlComponents?.url else { return }
-        //when
+        // when
         let code = authHelper.code(from: url)
-        
-        //then
+
+        // then
         XCTAssertEqual(code, "test_code")
     }
 }

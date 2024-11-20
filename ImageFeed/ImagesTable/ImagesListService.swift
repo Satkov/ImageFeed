@@ -2,7 +2,7 @@ import Foundation
 
 final class ImagesListService: ImagesListServiceProtocol {
     static let shared = ImagesListService()
-    
+
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private let requestCacheManager: RequestCacheManagerProtocol

@@ -17,13 +17,13 @@ final class TabBarController: UITabBarController {
         let imagesNavController = UINavigationController(rootViewController: imagesListViewController)
         let imageListPresenter = ImageListPresenter()
         imagesListVC.configure(imageListPresenter)
-        
+
         imagesNavController.tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(named: "feed_button"),
             selectedImage: nil
         )
-        
+
         // Profile Tab
         let profilePageViewController = ProfilePageViewController()
         let profilePagePresenter = ProfilePagePresenter()

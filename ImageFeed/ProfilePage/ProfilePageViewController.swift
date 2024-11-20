@@ -87,7 +87,7 @@ final class ProfilePageViewController: UIViewController, ProfilePageViewControll
             on: self,
             confirmAction: confirmAction
         )
-        
+
     }
 
     // MARK: - Gradient Placeholder

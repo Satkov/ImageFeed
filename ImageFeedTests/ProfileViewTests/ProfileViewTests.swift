@@ -2,22 +2,22 @@
 import XCTest
 
 final class ProfileViewTests: XCTestCase {
-    
+
     func testViewControllerCallsViewDidLoad() {
-        //given
+        // given
         let viewController = ProfilePageViewController()
         let presenter = ProfilePagePresenterSpy()
         viewController.configure(presenter)
-        
-        //when
+
+        // when
         _ = viewController.view
-        
-        //then
+
+        // then
         XCTAssertTrue(presenter.didViewDidLoadCalled)
     }
-    
+
     func testPresenterViewDidLoad() {
-        //given
+        // given
         let viewController = ProfileViewControllerSpy()
         let profileServiceFake = ProfileServiceFake()
         let profileImageServiceFake = ProfileImageServiceFake()
@@ -25,29 +25,29 @@ final class ProfileViewTests: XCTestCase {
             profileService: profileServiceFake,
             profileImageService: profileImageServiceFake
         )
-        
+
         viewController.configure(presenter: presenter)
-        
-        //when
+
+        // when
         presenter.viewDidLoad()
-        
-        //then
+
+        // then
         XCTAssertTrue(viewController.didUpdateAvatarCalled)
         XCTAssertTrue(viewController.didUpdateProfileCalled)
     }
-    
+
     func testDidPresenterCallsShowAlert() {
-        //given
+        // given
         let viewController = ProfileViewControllerSpy()
         let profileServiceFake = ProfileServiceFake()
         let presenter = ProfilePagePresenter(profileService: profileServiceFake)
-        
+
         viewController.configure(presenter: presenter)
-        
-        //when
+
+        // when
         presenter.exitButtonTapped()
-        
-        //then
+
+        // then
         XCTAssertTrue(viewController.didShowAlertCalled)
     }
 

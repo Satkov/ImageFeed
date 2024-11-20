@@ -1,34 +1,34 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
-    
+
     // MARK: - UI Elements
     @IBOutlet private weak var tableView: UITableView!
-    
+
     // MARK: - Properties
     var presenter: ImageListPresenterProtocol?
-    
+
     // MARK: - Configuration
     func configure(_ presenter: ImageListPresenterProtocol) {
         self.presenter = presenter
         presenter.view = self
     }
-    
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         presenter?.viewDidLoad()
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         presenter?.showNextViewController(segue: segue, sender: sender)
     }
-    
+
     // MARK: - Setup
     private func setupTableView() {
         view.backgroundColor = UIColor(named: "YP Black")
@@ -37,7 +37,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
         tableView.backgroundColor = UIColor(named: "YP Black")
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
-    
+
     // MARK: - Table View Updates
     func updateTableViewAnimated(oldCount: Int, newCount: Int) {
         tableView.performBatchUpdates {
@@ -45,7 +45,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
             tableView.insertRows(at: indexPaths, with: .automatic)
         }
     }
-    
+
     // MARK: - Image Loading
     func loadImage(for viewController: SingleImageViewControllerProtocol, with url: URL) {
         presenter?.loadImage(for: url) { [weak self] image in
@@ -67,16 +67,16 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
 
 // MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: Constants.showSingleImageSegueIdentifier, sender: indexPath)
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let availableWidth = tableView.bounds.width - Constants.cellInsets.left - Constants.cellInsets.right
         return presenter?.calculateHightForCells(indexPath: indexPath, availableWidth: availableWidth) ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         presenter?.fetchPhotosNextPage(indexPath: indexPath)
     }
@@ -84,11 +84,11 @@ extension ImagesListViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter?.getNumberOfRows() ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
         guard let imagesListCell = cell as? ImagesListCell else { return UITableViewCell() }
@@ -99,7 +99,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
 // MARK: - Cell Configuration
 extension ImagesListViewController {
-    
+
     private func configure(_ cell: ImagesListCell, for indexPath: IndexPath) {
         presenter?.configure(cell, for: indexPath) { state in
             cell.setIsLiked(state)
@@ -111,7 +111,7 @@ extension ImagesListViewController {
 
 // MARK: - Error Handling
 extension ImagesListViewController {
-    
+
     func showErrorAlert(title: String, message: String, retryHandler: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Повторить", style: .default) { _ in retryHandler() })
@@ -122,11 +122,11 @@ extension ImagesListViewController {
 
 // MARK: - ImagesListCellDelegate
 extension ImagesListViewController: ImagesListCellDelegate {
-    
+
     func imageListCellDidTapLike(_ cell: ImagesListCellProtocol) {
         guard let cell = cell as? ImagesListCell,
               let indexPath = tableView.indexPath(for: cell) else { return }
-        
+
         UIBlockingProgressHUD.show()
         presenter?.toggleLikeState(indexPath) { state in
             cell.setIsLiked(state)

@@ -2,30 +2,30 @@ import UIKit
 import Kingfisher
 
 final class ImageListPresenter: ImageListPresenterProtocol {
-    
+
     // MARK: - Properties
     private var photos: [Photo] = []
     private var cellHeightCache = [IndexPath: CGFloat]()
     private var imagesListServiceObserver: NSObjectProtocol?
-    
+
     var view: ImagesListViewControllerProtocol?
     private var imagesListService: ImagesListServiceProtocol
-    
+
     // MARK: - Initializer
     init(imagesListService: ImagesListServiceProtocol = ImagesListService.shared) {
         self.imagesListService = imagesListService
     }
-    
+
     deinit {
         removeObserverForImagesList()
     }
-    
+
     // MARK: - Lifecycle
     func viewDidLoad() {
         photos = imagesListService.photos
         addObserverForImagesList()
     }
-    
+
     // MARK: - Private Methods
     private func addObserverForImagesList() {
         imagesListServiceObserver = NotificationCenter.default.addObserver(
@@ -36,20 +36,20 @@ final class ImageListPresenter: ImageListPresenterProtocol {
             self?.checkIfNewPhotosWereAdded()
         }
     }
-    
+
     private func removeObserverForImagesList() {
         if let observer = imagesListServiceObserver {
             NotificationCenter.default.removeObserver(observer)
         }
     }
-    
+
     private func checkIfNewPhotosWereAdded() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
         photos = imagesListService.photos
         view?.updateTableViewAnimated(oldCount: oldCount, newCount: newCount)
     }
-    
+
     // MARK: - Public Methods
     func configure(_ cell: ImagesListCell, for indexPath: IndexPath, handler: @escaping (_ state: LikeButtonState) -> Void) {
         let photo = photos[indexPath.row]
@@ -87,7 +87,7 @@ final class ImageListPresenter: ImageListPresenterProtocol {
             imagesListService.fetchPhotosNextPage { _ in }
         }
     }
-    
+
     func getNumberOfRows() -> Int {
         return photos.count
     }
@@ -106,12 +106,12 @@ final class ImageListPresenter: ImageListPresenterProtocol {
             }
         }
     }
-    
+
     func showNextViewController(segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == Constants.showSingleImageSegueIdentifier,
               let viewController = segue.destination as? SingleImageViewController,
               let indexPath = sender as? IndexPath else { return }
-        
+
         UIBlockingProgressHUD.show()
         let photo = photos[indexPath.row]
         guard let url = URL(string: photo.urls.full) else { return }

@@ -7,7 +7,7 @@ final class ProfileService: ProfileServiceProtocol {
     // MARK: - Properties
 
     static let shared = ProfileService()
-    
+
     private let networkTaskManager: NetworkTaskManagerProtocol
     private let requestCacheManager: RequestCacheManagerProtocol
     private(set) var profile: ProfileInfo?

@@ -7,7 +7,7 @@ final class ProfilePagePresenter: ProfilePagePresenterProtocol {
     private let profileService: ProfileServiceProtocol
     private let profileImageService: ProfileImageServiceProtocol
     private let profileLogoutService: ProfileLogoutServiceProtocol
-    
+
     init(
         profileService: ProfileServiceProtocol = ProfileService.shared,
         profileLogoutService: ProfileLogoutServiceProtocol = ProfileLogoutService.shared,
@@ -17,12 +17,12 @@ final class ProfilePagePresenter: ProfilePagePresenterProtocol {
         self.profileLogoutService = profileLogoutService
         self.profileImageService = profileImageService
     }
-    
+
     func viewDidLoad() {
         loadProfileData()
         prepareAvatarImageURL()
     }
-    
+
     private func loadProfileData() {
         guard let profile = profileService.profile else { return }
             view?.updateProfile(
@@ -31,7 +31,7 @@ final class ProfilePagePresenter: ProfilePagePresenterProtocol {
                 bio: profile.bio
             )
         }
-    
+
     func prepareAvatarImageURL() {
         guard let profileImageURL = profileImageService.profileImageURL?.image.large,
               let url = URL(string: profileImageURL) else {
@@ -40,7 +40,7 @@ final class ProfilePagePresenter: ProfilePagePresenterProtocol {
         }
         view?.updateAvatarImage(with: url)
     }
-    
+
     func exitButtonTapped() {
         let confirmAction = {
             self.profileLogoutService.logout()
