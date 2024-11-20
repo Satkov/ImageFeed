@@ -6,6 +6,7 @@ import SwiftKeychainWrapper
 // MARK: - AuthViewController
 
 final class AuthViewController: UIViewController {
+    @IBOutlet weak var authButton: UIButton!
     // MARK: - Properties
 
     let showWebViewSegueIdentifier = "ShowWebView"
@@ -17,6 +18,7 @@ final class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
+        authButton.accessibilityIdentifier = "Authenticate"
     }
 
     // MARK: - Navigation

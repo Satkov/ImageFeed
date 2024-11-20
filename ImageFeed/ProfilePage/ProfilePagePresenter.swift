@@ -4,12 +4,18 @@ import Kingfisher
 
 final class ProfilePagePresenter: ProfilePagePresenterProtocol {
     var view: ProfilePageViewControllerProtocol?
-    private let profileService: ProfileServiceProtocol!
-    private let profileLogoutService: ProfileLogoutServiceProtocol!
+    private let profileService: ProfileServiceProtocol
+    private let profileImageService: ProfileImageServiceProtocol
+    private let profileLogoutService: ProfileLogoutServiceProtocol
     
-    init() {
-        profileService = ProfileService.shared
-        profileLogoutService = ProfileLogoutService.shared
+    init(
+        profileService: ProfileServiceProtocol = ProfileService.shared,
+        profileLogoutService: ProfileLogoutServiceProtocol = ProfileLogoutService.shared,
+        profileImageService: ProfileImageServiceProtocol = ProfileImageService.shared
+    ) {
+        self.profileService = profileService
+        self.profileLogoutService = profileLogoutService
+        self.profileImageService = profileImageService
     }
     
     func viewDidLoad() {
@@ -21,13 +27,13 @@ final class ProfilePagePresenter: ProfilePagePresenterProtocol {
         guard let profile = profileService.profile else { return }
             view?.updateProfile(
                 name: profile.fullName,
-                tag: profile.username,
+                tag: "@\(profile.username)",
                 bio: profile.bio
             )
         }
     
     func prepareAvatarImageURL() {
-        guard let profileImageURL = ProfileImageService.shared.profileImageURL?.image.large,
+        guard let profileImageURL = profileImageService.profileImageURL?.image.large,
               let url = URL(string: profileImageURL) else {
             view?.updateAvatarImage(with: nil)
             return

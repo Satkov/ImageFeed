@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kmE-Ie-3aU">
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="Authenticate" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kmE-Ie-3aU" userLabel="Authenticate">
                                 <rect key="frame" x="32" y="646" width="329" height="48"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <constraints>
@@ -33,6 +33,7 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="UnsplashWebView"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="o6p-Yc-vVe" kind="show" identifier="ShowWebView" id="V2h-bq-cfC"/>
@@ -54,6 +55,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wG7-my-Mtd"/>
+                    <connections>
+                        <outlet property="authButton" destination="kmE-Ie-3aU" id="oRk-tU-gcv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="So7-Bv-Kfc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -67,12 +71,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TKb-d1-0J5">
+                            <wkWebView contentMode="scaleToFill" restorationIdentifier="UnsplashWebView" translatesAutoresizingMaskIntoConstraints="NO" id="TKb-d1-0J5" userLabel="UnsplashWebView">
                                 <rect key="frame" x="16" y="103" width="361" height="715"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="UnsplashWebView"/>
+                                </userDefinedRuntimeAttributes>
                             </wkWebView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="X4Q-cD-VUP">
                                 <rect key="frame" x="121" y="243" width="150" height="4"/>

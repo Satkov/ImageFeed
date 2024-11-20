@@ -39,6 +39,7 @@ final class AlertService {
 
         alert.addAction(confirm)
         alert.addAction(cancel)
+        alert.view.accessibilityIdentifier = "Double Button Alert"
 
         viewController.present(alert, animated: true)
     }

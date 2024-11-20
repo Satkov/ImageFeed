@@ -15,6 +15,7 @@ final class SingleImageViewController: UIViewController, SingleImageViewControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        backwardButton.accessibilityIdentifier = "nav back button white"
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
 

@@ -87,6 +87,7 @@ final class ProfilePageViewController: UIViewController, ProfilePageViewControll
             on: self,
             confirmAction: confirmAction
         )
+        
     }
 
     // MARK: - Gradient Placeholder
@@ -108,6 +109,7 @@ final class ProfilePageViewController: UIViewController, ProfilePageViewControll
     }
 
     private func setupExitButton() {
+        exitButton.accessibilityIdentifier = "logout button"
         exitButton.setupButton(imageName: "exit_button", parent: view, action: #selector(exitButtonTapped), constraints: [
             exitButton.widthAnchor.constraint(equalToConstant: 44),
             exitButton.heightAnchor.constraint(equalToConstant: 44),

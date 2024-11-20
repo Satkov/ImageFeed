@@ -20,6 +20,7 @@ final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
 
     // MARK: - Configuration
     func configure(with url: URL, photoDate: Date?) {
+        likeButton.accessibilityIdentifier = "like button"
         configureDateGradientBackground()
         configureImagePlaceholder()
         loadImage(from: url)

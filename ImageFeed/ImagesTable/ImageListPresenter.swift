@@ -9,11 +9,11 @@ final class ImageListPresenter: ImageListPresenterProtocol {
     private var imagesListServiceObserver: NSObjectProtocol?
     
     var view: ImagesListViewControllerProtocol?
-    var imagesListService: ImagesListServiceProtocol
+    private var imagesListService: ImagesListServiceProtocol
     
     // MARK: - Initializer
-    init() {
-        imagesListService = ImagesListService.shared
+    init(imagesListService: ImagesListServiceProtocol = ImagesListService.shared) {
+        self.imagesListService = imagesListService
     }
     
     deinit {
@@ -57,7 +57,7 @@ final class ImageListPresenter: ImageListPresenterProtocol {
         cell.configure(with: url, photoDate: photo.createdAt)
         handler(LikeButtonState.state(for: photo))
     }
-    
+    //
     func loadImage(for url: URL, completion: @escaping (UIImage?) -> Void) {
         KingfisherManager.shared.retrieveImage(with: url) { result in
             switch result {
@@ -68,7 +68,7 @@ final class ImageListPresenter: ImageListPresenterProtocol {
             }
         }
     }
-    
+    //
     func calculateHightForCells(indexPath: IndexPath, availableWidth: CGFloat) -> CGFloat {
         if let cachedHeight = cellHeightCache[indexPath] {
             return cachedHeight
@@ -81,7 +81,7 @@ final class ImageListPresenter: ImageListPresenterProtocol {
         cellHeightCache[indexPath] = calculatedHeight
         return calculatedHeight
     }
-    
+    //
     func fetchPhotosNextPage(indexPath: IndexPath) {
         if indexPath.row == photos.count - 1 {
             imagesListService.fetchPhotosNextPage { _ in }
@@ -91,7 +91,7 @@ final class ImageListPresenter: ImageListPresenterProtocol {
     func getNumberOfRows() -> Int {
         return photos.count
     }
-    
+    //
     func toggleLikeState(_ indexPath: IndexPath, handler: @escaping (_ state: LikeButtonState) -> Void) {
         let photo = photos[indexPath.row]
         imagesListService.changeLike(photoId: photo.id, isLikedByUser: photo.isLikedByUser) { [weak self] result in
