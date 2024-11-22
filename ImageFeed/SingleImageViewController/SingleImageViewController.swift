@@ -1,6 +1,6 @@
 import UIKit
 
-final class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController, SingleImageViewControllerProtocol {
     @IBOutlet private var backwardButton: UIButton!
     @IBOutlet private var shareButton: UIButton!
     @IBOutlet private var scrollView: UIScrollView!
@@ -15,6 +15,7 @@ final class SingleImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        backwardButton.accessibilityIdentifier = "nav back button white"
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
 

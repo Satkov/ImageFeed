@@ -1,8 +1,10 @@
 import UIKit
 
-final class ImagesListCell: UITableViewCell {
+final class ImagesListCell: UITableViewCell, ImagesListCellProtocol {
     // MARK: - Static Properties
-    static let reuseIdentifier = "ImagesListCell"
+    static var reuseIdentifier: String {
+            return "ImagesListCell"
+        }
 
     // MARK: - Delegate
     weak var delegate: ImagesListCellDelegate?
@@ -18,6 +20,7 @@ final class ImagesListCell: UITableViewCell {
 
     // MARK: - Configuration
     func configure(with url: URL, photoDate: Date?) {
+        likeButton.accessibilityIdentifier = "like button"
         configureDateGradientBackground()
         configureImagePlaceholder()
         loadImage(from: url)
@@ -40,7 +43,7 @@ final class ImagesListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
-        stopGradientAnimation(for: self, animationLayers: &animationLayers)
+        stopGradientAnimation(animationLayers: &animationLayers)
     }
 
     private func configureDateGradientBackground() {
@@ -60,7 +63,7 @@ final class ImagesListCell: UITableViewCell {
         cellImage.kf.indicatorType = .activity
         cellImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder")) { [weak self] _ in
             guard let self = self else { return }
-            stopGradientAnimation(for: self, animationLayers: &self.animationLayers)
+            stopGradientAnimation(animationLayers: &self.animationLayers)
         }
     }
 

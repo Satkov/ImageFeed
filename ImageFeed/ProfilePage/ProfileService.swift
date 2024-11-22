@@ -2,16 +2,20 @@ import UIKit
 
 // MARK: - ProfileService
 
-final class ProfileService {
+final class ProfileService: ProfileServiceProtocol {
 
     // MARK: - Properties
 
     static let shared = ProfileService()
-    private let networkTaskManager = NetworkTaskManager()
-    private let requestCacheManager = RequestCacheManager.shared
+
+    private let networkTaskManager: NetworkTaskManagerProtocol
+    private let requestCacheManager: RequestCacheManagerProtocol
     private(set) var profile: ProfileInfo?
 
-    private init() {}
+    private init() {
+        networkTaskManager = NetworkTaskManager()
+        requestCacheManager = RequestCacheManager.shared
+    }
 
     // MARK: - API URLs
 

@@ -6,14 +6,15 @@ final class SplashViewController: UIViewController {
 
     private let iconView = UIImageView()
     private let showAuthViewControllerIdentifier = "showAuthView"
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let imagesListService = ImagesListService.shared
+    private var profileService: ProfileServiceProtocol!
+    private var profileImageService: ProfileImageServiceProtocol!
+    private var imagesListService: ImagesListServiceProtocol!
 
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupServices()
         setupSplashView()
     }
 
@@ -23,6 +24,12 @@ final class SplashViewController: UIViewController {
     }
 
     // MARK: - Setup UI
+
+    private func setupServices() {
+        profileService = ProfileService.shared
+        profileImageService = ProfileImageService.shared
+        imagesListService = ImagesListService.shared
+    }
 
     private func setupSplashView() {
         view.backgroundColor = UIColor(named: "YP Black")

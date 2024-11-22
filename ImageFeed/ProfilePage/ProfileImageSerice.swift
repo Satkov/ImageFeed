@@ -2,18 +2,22 @@ import UIKit
 
 // MARK: - ProfileImageService
 
-final class ProfileImageService {
+final class ProfileImageService: ProfileImageServiceProtocol {
 
     // MARK: - Properties
 
     static let shared = ProfileImageService()
     static let didChangeNotification = Notification.Name("ProfileImageProviderDidChange")
-    private let profileService = ProfileService.shared
-    private let networkTaskManager = NetworkTaskManager()
-    private let requestCacheManager = RequestCacheManager.shared
+    private let profileService: ProfileServiceProtocol
+    private let networkTaskManager: NetworkTaskManagerProtocol
+    private let requestCacheManager: RequestCacheManagerProtocol
     private(set) var profileImageURL: ProfileImageURL?
 
-    private init() {}
+    private init() {
+        profileService = ProfileService.shared
+        networkTaskManager = NetworkTaskManager()
+        requestCacheManager = RequestCacheManager.shared
+    }
 
     // MARK: - API URLs
 

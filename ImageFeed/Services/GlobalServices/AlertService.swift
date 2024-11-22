@@ -2,9 +2,6 @@ import UIKit
 
 final class AlertService {
 
-    static let shared = AlertService()
-    private init() {}
-
     func showAlert(
         title: String,
         message: String,
@@ -42,6 +39,7 @@ final class AlertService {
 
         alert.addAction(confirm)
         alert.addAction(cancel)
+        alert.view.accessibilityIdentifier = "Double Button Alert"
 
         viewController.present(alert, animated: true)
     }

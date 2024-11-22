@@ -7,11 +7,14 @@ final class OAuth2Service {
     // MARK: - Properties
 
     static let shared = OAuth2Service()
-    private let networkTaskManager = NetworkTaskManager()
-    private let requestCacheManager = RequestCacheManager.shared
+    private let networkTaskManager: NetworkTaskManagerProtocol
+    private let requestCacheManager: RequestCacheManagerProtocol
     private let cacheKey = "OAuth2Service"
 
-    private init() {}
+    private init() {
+        networkTaskManager = NetworkTaskManager()
+        requestCacheManager = RequestCacheManager.shared
+    }
 
     // MARK: - Request Creation
 
@@ -69,6 +72,7 @@ final class OAuth2Service {
         // Выполнение сетевого запроса
         let task = networkTaskManager.performDecodedRequest(
             request: request,
+            updateState: nil,
             cacheKey: cacheKey,
             decoder: decoder,
             cacheIdentifier: code,

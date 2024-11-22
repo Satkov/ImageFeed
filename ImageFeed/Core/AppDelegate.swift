@@ -8,19 +8,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ProgressHUD.animationType = .activityIndicator
         ProgressHUD.colorHUD = .black
         ProgressHUD.colorAnimation = .black
-        
+
         if #available(iOS 15, *) {
             // MARK: Navigation bar appearance
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithOpaqueBackground()
             navigationBarAppearance.titleTextAttributes = [
-                NSAttributedString.Key.foregroundColor : UIColor(named: "YP White") ?? .white
+                NSAttributedString.Key.foregroundColor: UIColor(named: "YP White") ?? .white
             ]
             navigationBarAppearance.backgroundColor = UIColor(named: "YP Black")
             UINavigationBar.appearance().standardAppearance = navigationBarAppearance
             UINavigationBar.appearance().compactAppearance = navigationBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-            
+
             // MARK: Tab bar appearance
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             UITabBar.appearance().standardAppearance = tabBarAppearance
         }
-        
+
         return true
     }
 

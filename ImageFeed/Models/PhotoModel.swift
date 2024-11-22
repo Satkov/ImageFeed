@@ -18,7 +18,7 @@ struct PhotoResult: Decodable {
     let description: String?
     let urls: PhotoURLs
     var likedByUser: Bool
-    
+
     func createPhotoModel() -> Photo {
         Photo(id: self.id,
               createdAt: self.createdAt,

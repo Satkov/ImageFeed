@@ -6,6 +6,7 @@ import SwiftKeychainWrapper
 // MARK: - AuthViewController
 
 final class AuthViewController: UIViewController {
+    @IBOutlet weak var authButton: UIButton!
     // MARK: - Properties
 
     let showWebViewSegueIdentifier = "ShowWebView"
@@ -17,6 +18,7 @@ final class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
+        authButton.accessibilityIdentifier = "Authenticate"
     }
 
     // MARK: - Navigation
@@ -27,6 +29,9 @@ final class AuthViewController: UIViewController {
                 logError(message: "Failed to prepare for \(showWebViewSegueIdentifier)")
                 return
             }
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewViewController.presenter = webViewPresenter
             webViewViewController.modalPresentationStyle = .fullScreen
             webViewViewController.delegate = self
         } else {

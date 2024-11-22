@@ -1,7 +1,7 @@
 import UIKit
 import Kingfisher
 
-final class ProfilePageViewController: UIViewController {
+final class ProfilePageViewController: UIViewController, ProfilePageViewControllerProtocol {
 
     // MARK: - UI Elements
     private let profileImageView = UIImageView()
@@ -10,25 +10,17 @@ final class ProfilePageViewController: UIViewController {
     private let tagLabel = UILabel()
     private let bioLabel = UILabel()
     private var animationLayers = Set<CALayer>()
-    private var profileDataIsLoaded: Bool = false
+    private var profileDataIsLoaded = false
 
-    // MARK: - Services
-    private let profileService = ProfileService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
+    // MARK: - Dependencies
+    var presenter: ProfilePagePresenterProtocol?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
-        setupProfileImageView()
-        setupExitButton()
-        setupNameLabel()
-        setupTagLabel()
-        setupBioLabel()
-        loadProfileData()
+        setupUI()
+        presenter?.viewDidLoad()
         addObserverForProfileImage()
-        updateAvatarImage()
     }
 
     override func viewWillLayoutSubviews() {
@@ -37,128 +29,56 @@ final class ProfilePageViewController: UIViewController {
     }
 
     // MARK: - Configuration
-    private func configureView() {
+    func configure(_ presenter: ProfilePagePresenterProtocol) {
+        self.presenter = presenter
+        presenter.view = self
+    }
+
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "YP Black")
+        setupProfileImageView()
+        setupExitButton()
+        setupLabels()
     }
 
     // MARK: - Observers
     private func addObserverForProfileImage() {
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
+        NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.updateAvatarImage()
+            self?.presenter?.prepareAvatarImageURL()
         }
     }
 
     // MARK: - Avatar Image
-    private func updateAvatarImage() {
-        guard let profileImageURL = ProfileImageService.shared.profileImageURL?.image.large,
-              let url = URL(string: profileImageURL) else { return }
-
+    func updateAvatarImage(with url: URL?) {
         let processor = RoundCornerImageProcessor(cornerRadius: 90)
         profileImageView.kf.setImage(
             with: url,
             placeholder: UIImage(named: "placeholder"),
             options: [.processor(processor)]
-        ) { _ in
-            self.profileDataIsLoaded = true
-            stopGradientAnimation(for: self.profileImageView, animationLayers: &self.animationLayers)
+        ) { [weak self] _ in
+            self?.profileDataIsLoaded = true
+            stopGradientAnimation(animationLayers: &self!.animationLayers)
         }
     }
 
     // MARK: - Profile Data
-    private func loadProfileData() {
-        nameLabel.text = profileService.profile?.fullName
-        tagLabel.text = profileService.profile?.username
-        bioLabel.text = profileService.profile?.bio
+    func updateProfile(name: String, tag: String, bio: String?) {
+        nameLabel.text = name
+        tagLabel.text = tag
+        bioLabel.text = bio
     }
 
-    // MARK: - UI Setup Methods
-    private func activateGradientPlaceholder() {
-        if !profileDataIsLoaded {
-            setGradientForPlaceholder(for: profileImageView, animationLayers: &animationLayers)
-            setGradientForPlaceholder(for: nameLabel, animationLayers: &animationLayers)
-            setGradientForPlaceholder(for: bioLabel, animationLayers: &animationLayers)
-            setGradientForPlaceholder(for: tagLabel, animationLayers: &animationLayers)
-        }
-    }
-
-    private func setupProfileImageView() {
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.layer.cornerRadius = 35
-        profileImageView.clipsToBounds = true
-        view.addSubview(profileImageView)
-
-        NSLayoutConstraint.activate([
-            profileImageView.widthAnchor.constraint(equalToConstant: 70),
-            profileImageView.heightAnchor.constraint(equalToConstant: 70),
-            profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
-            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-    }
-
-    private func setupExitButton() {
-        exitButton.translatesAutoresizingMaskIntoConstraints = false
-        exitButton.setImage(UIImage(named: "exit_button"), for: .normal)
-        view.addSubview(exitButton)
-
-        exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
-
-        NSLayoutConstraint.activate([
-            exitButton.widthAnchor.constraint(equalToConstant: 44),
-            exitButton.heightAnchor.constraint(equalToConstant: 44),
-            exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
-            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
-    }
-
-    private func setupNameLabel() {
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.textColor = UIColor(named: "YP White")
-        nameLabel.font = UIFont(name: "SFProDisplay-Bold", size: 23)
-        view.addSubview(nameLabel)
-
-        NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8)
-        ])
-    }
-
-    private func setupTagLabel() {
-        tagLabel.translatesAutoresizingMaskIntoConstraints = false
-        tagLabel.textColor = UIColor(named: "YP Gray")
-        tagLabel.font = .systemFont(ofSize: 13)
-        view.addSubview(tagLabel)
-
-        NSLayoutConstraint.activate([
-            tagLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
-            tagLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
-        ])
-    }
-
-    private func setupBioLabel() {
-        bioLabel.translatesAutoresizingMaskIntoConstraints = false
-        bioLabel.textColor = UIColor(named: "YP White")
-        bioLabel.font = .systemFont(ofSize: 13)
-        view.addSubview(bioLabel)
-
-        NSLayoutConstraint.activate([
-            bioLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
-            bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)
-        ])
-    }
-
+    // MARK: - Exit Action
     @objc private func exitButtonTapped() {
-        let confirmAction = {
-            self.profileLogoutService.logout()
-            let newViewController = SplashViewController()
-            let window = UIApplication.shared.windows.first
-            window?.rootViewController = newViewController
-            window?.makeKeyAndVisible()
-        }
-        AlertService.shared.showAlert(
+        presenter?.exitButtonTapped()
+    }
+
+    func showAlert(confirmAction: @escaping () -> Void) {
+        AlertService().showAlert(
             title: "Пока, пока!",
             message: "Уверены, что хотите выйти?",
             confirmButtonTitle: "Да",
@@ -167,5 +87,56 @@ final class ProfilePageViewController: UIViewController {
             confirmAction: confirmAction
         )
 
+    }
+
+    // MARK: - Gradient Placeholder
+    private func activateGradientPlaceholder() {
+        guard !profileDataIsLoaded else { return }
+        [profileImageView, nameLabel, tagLabel, bioLabel].forEach {
+            setGradientForPlaceholder(for: $0, animationLayers: &animationLayers)
+        }
+    }
+
+    // MARK: - UI Setup Methods
+    private func setupProfileImageView() {
+        profileImageView.setupRoundedImageView(radius: 35, parent: view, constraints: [
+            profileImageView.widthAnchor.constraint(equalToConstant: 70),
+            profileImageView.heightAnchor.constraint(equalToConstant: 70),
+            profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
+            profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
+        ])
+    }
+
+    private func setupExitButton() {
+        exitButton.accessibilityIdentifier = "logout button"
+        exitButton.setupButton(imageName: "exit_button", parent: view, action: #selector(exitButtonTapped), constraints: [
+            exitButton.widthAnchor.constraint(equalToConstant: 44),
+            exitButton.heightAnchor.constraint(equalToConstant: 44),
+            exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+
+    private func setupLabels() {
+        setupLabel(nameLabel, font: UIFont(name: "SFProDisplay-Bold", size: 23), textColor: "YP White", constraints: [
+            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8)
+        ])
+        setupLabel(tagLabel, font: .systemFont(ofSize: 13), textColor: "YP Gray", constraints: [
+            tagLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+            tagLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
+        ])
+        setupLabel(bioLabel, font: .systemFont(ofSize: 13), textColor: "YP White", constraints: [
+            bioLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor),
+            bioLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8)
+        ])
+    }
+
+    private func setupLabel(_ label: UILabel, font: UIFont?, textColor: String, constraints: [NSLayoutConstraint]) {
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: textColor)
+        label.font = font
+        view.addSubview(label)
+        NSLayoutConstraint.activate(constraints)
     }
 }

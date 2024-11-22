@@ -1,14 +1,18 @@
 import Foundation
 
-final class ImagesListService {
+final class ImagesListService: ImagesListServiceProtocol {
     static let shared = ImagesListService()
+
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
-    private let requestCacheManager = RequestCacheManager.shared
-    private let networkTaskManager = NetworkTaskManager()
+    private let requestCacheManager: RequestCacheManagerProtocol
+    private let networkTaskManager: NetworkTaskManagerProtocol
     static let didChangeNotification = Notification.Name(rawValue: "PhotoListDidChange")
 
-    private init() {}
+    private init() {
+        networkTaskManager = NetworkTaskManager()
+        requestCacheManager = RequestCacheManager.shared
+    }
 
     private enum UnsplashImagesListURL {
         static let photos = "https://api.unsplash.com/photos"
